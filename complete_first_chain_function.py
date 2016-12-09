@@ -502,6 +502,7 @@ def plotting_results(input_my_cost_func_per_iter , input_my_test_cost_per_iter,
 
 
 
+
                    
         plt.figure(8)
         plt.plot(input_my_theta_variance[1000:1020])
@@ -523,7 +524,40 @@ def plotting_results(input_my_cost_func_per_iter , input_my_test_cost_per_iter,
  #theta_transpose, cost_func , cost_func_per_iter, test_cost , test_cost_per_iter,train_cost , train_cost_per_iter,before_train_cost_per_iter,before_train_cost,before_test_cost_per_iter,before_test_cost = test_train_check_func_concat_data( x_train , x_test ,3382,0.5 , 1 , 0.01 ,critical_times_set)
         
     
+###################################### 11
+def  find_corresponding_voxel_after_reshape(input_theta , r0 ,r1 , r2,target_voxel):
+        import numpy
+        import math
 
+        reshape_theta = numpy.reshape(input_theta ,(r0,r1,r2))
+
+        y1 = input_theta[target_voxel]
+
+        x3 = (((target_voxel)+1) % r2) - 1
+
+        q = ((target_voxel)+1) // r2
+
+        x2 = q % r1
+
+        x1 = q // r1
+
+        if (((target_voxel)+1) % r2) != 0:
+
+                y2 = reshape_theta[x1,x2,x3]
+
+                return x1,x2,x3,y2-y1
+
+        else:
+                y2 = reshape_theta[x1,x2 - 1,r2 - 1]
+
+                return x1,x2 - 1,r2 - 1 , y2-y1
+
+#################################################        
+
+                        
+
+                
+        
 
 
 
