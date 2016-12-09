@@ -306,18 +306,18 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
              test_cost = 0
              ####new
              train_cost = 0
-             #before_train_cost =0
-             #before_test_cost=0
+             before_train_cost =0
+             before_test_cost=0
              ####
 
 
              ###new
-             #before_hypo_func_train = numpy.dot((x_train_normalized) , (theta_transpose))
-             #before_train_cost = (1/t1_train) * math.pow((numpy.linalg.norm( before_hypo_func_train[0:(t1_train)-2] - shift(train_label_normalized , -1)[0:(t1_train)-2])) , 2)
+             before_hypo_func_train = numpy.dot((x_train_normalized) , (theta_transpose))
+             before_train_cost = (1/t1_train) * math.pow((numpy.linalg.norm( before_hypo_func_train[0:(t1_train)-2] - shift(train_label_normalized , -1)[0:(t1_train)-2])) , 2)
              #before_train_cost_per_iter[ite] = train_cost
 
-             #before_hypo_func_test = numpy.dot((x_test_normalized) , (theta_transpose))
-             #before_test_cost = (1/t1_train) * math.pow((numpy.linalg.norm( before_hypo_func_test[0:(t1_test)-2] - shift(test_label_normalized , -1)[0:(t1_test)-2])) , 2)
+             before_hypo_func_test = numpy.dot((x_test_normalized) , (theta_transpose))
+             before_test_cost = (1/t1_test) * math.pow((numpy.linalg.norm( before_hypo_func_test[0:(t1_test)-2] - shift(test_label_normalized , -1)[0:(t1_test)-2])) , 2)
              #before_test_cost_per_iter[ite] = test_cost
              ###
 
@@ -360,7 +360,7 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
              
               
                    
-     return theta_transpose,  test_cost , test_cost_per_iter,train_cost , train_cost_per_iter
+     return theta_transpose,  test_cost , test_cost_per_iter , train_cost , train_cost_per_iter , before_test_cost , before_train_cost
 ###################################################### 8
 def find_test_cost(input_x_test , input_theta_transpose , target_voxel_ind ):
 
