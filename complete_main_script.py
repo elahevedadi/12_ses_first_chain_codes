@@ -30,6 +30,12 @@ from complete_first_chain_function import find_mean_and_variance_of_theta
 from complete_first_chain_function import plotting_results
 # 10
 from complete_first_chain_function import find_test_cost
+# 11
+from complete_first_chain_function import find_corresponding_voxel_after_reshape
+# 12
+from complete_first_chain_function import find_train_cost
+# 13
+from complete_first_chain_function import find_theta_by_solving_matrix_equation
 
 
 
@@ -174,18 +180,18 @@ data12 , data13 , data14 , data15 , data16 ,  data17 , data18 , data19 , data20 
         
 #numpy.savetxt('rr_data23.txt' , rr_data23 , fmt = '%.18e')
 
-rr_data12 = numpy.loadtxt('/Users/Apple/Desktop/rr_data12.txt')
-rr_data13 = numpy.loadtxt('/Users/Apple/Desktop/rr_data13.txt')
-rr_data14 = numpy.loadtxt('/Users/Apple/Desktop/rr_data14.txt')
-rr_data15 = numpy.loadtxt('/Users/Apple/Desktop/rr_data15.txt')
-rr_data16 = numpy.loadtxt('/Users/Apple/Desktop/rr_data16.txt')
-rr_data17 = numpy.loadtxt('/Users/Apple/Desktop/rr_data17.txt')
-rr_data18 = numpy.loadtxt('/Users/Apple/Desktop/rr_data18.txt')
-rr_data19 = numpy.loadtxt('/Users/Apple/Desktop/rr_data19.txt')
-rr_data20 = numpy.loadtxt('/Users/Apple/Desktop/rr_data20.txt')
-rr_data21 = numpy.loadtxt('/Users/Apple/Desktop/rr_data21.txt')
-rr_data22 = numpy.loadtxt('/Users/Apple/Desktop/rr_data22.txt')
-rr_data23 = numpy.loadtxt('/Users/Apple/Desktop/rr_data23.txt')
+rr_data12 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/12_ses_results/rr_data12.txt')
+rr_data13 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/12_ses_results/rr_data13.txt')
+rr_data14 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/12_ses_results/rr_data14.txt')
+rr_data15 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/12_ses_results/rr_data15.txt')
+rr_data16 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/12_ses_results/rr_data16.txt')
+rr_data17 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/12_ses_results/rr_data17.txt')
+rr_data18 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/12_ses_results/rr_data18.txt')
+rr_data19 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/12_ses_results/rr_data19.txt')
+rr_data20 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/12_ses_results/rr_data20.txt')
+rr_data21 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/12_ses_results/rr_data21.txt')
+rr_data22 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/12_ses_results/rr_data22.txt')
+rr_data23 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/12_ses_results/rr_data23.txt')
 
 
 
@@ -199,14 +205,10 @@ concat_data = concatenate_func(rr_data12 , rr_data13 ,
                      rr_data22 , rr_data23 )
 
 print(concat_data.shape)
-
-
 #file = open('concat_data.txt', "w")
         
 #numpy.savetxt('concat_data.txt'  , concat_data , fmt = '%.18e')
 
-
-#concat_data = numpy.loadtxt('/Users/Apple/Desktop/concat_data.txt')
  
 
 
@@ -262,7 +264,7 @@ for i in range(num_storing_sets_of_theta):
     
     my_theta[:,i] = theta_transpose[:,0]
     my_train_cost[i] = train_cost
-    my_train_cost_per_iter[:,i] = train_cost_per_iter
+    my_train_cost_per_iter[:,i] = cost_func_per_iter
     my_test_cost[i] = test_cost
     my_test_cost_per_iter[:,i] = test_cost_per_iter
     my_before_train_cost[i] = before_train_cost
@@ -272,8 +274,8 @@ for i in range(num_storing_sets_of_theta):
 
 
 for i in range(num_storing_sets_of_theta):
-    file1 = open("my_theta_"+str(i)+".txt" , "w")
-    numpy.savetxt("my_theta_"+str(i)+".txt" , my_theta[:,i] , fmt = '%.18e')
+ #   file1 = open("my_theta_"+str(i)+".txt" , "w")
+#    numpy.savetxt("my_theta_"+str(i)+".txt" , my_theta[:,i] , fmt = '%.18e')
     
     print("before_test_cost_"+str(i)+" "+"is "+str(my_before_test_cost[i]) , end='\n')
     print("before_train_cost_"+str(i)+" "+"is "+str(my_before_train_cost[i]) , end='\n')
@@ -285,15 +287,17 @@ for i in range(num_storing_sets_of_theta):
     
     
 
-#########################################################################
+######################################################################### 7
 
 my_theta_mean , my_theta_variance = find_mean_and_variance_of_theta(my_theta)
 
-file_mean = open("my_theta_mean.txt" , "w")
-numpy.savetxt("my_theta_mean.txt" , my_theta_mean , fmt = '%.18e')
+#file_mean = open("my_theta_mean.txt" , "w")
+#numpy.savetxt("my_theta_mean.txt" , my_theta_mean , fmt = '%.18e')
 
-file_variance = open("my_theta_variance.txt" , "w")
-numpy.savetxt("my_theta_variance.txt" , my_theta_variance , fmt = '%.18e')
+#file_variance = open("my_theta_variance.txt" , "w")
+#numpy.savetxt("my_theta_variance.txt" , my_theta_variance , fmt = '%.18e')
+
+
 
 
 
@@ -304,11 +308,71 @@ print("test_cost_theta_mean is "+str(test_cost) , end='\n')
 
 ######################################################################
 
-plotting_results(my_train_cost_per_iter , my_test_cost_per_iter,
+
+
+plotting_results(my_cost_func_per_iter , my_test_cost_per_iter,
                      my_theta, 
                      my_theta_mean ,my_theta_variance,
                      num_storing_sets_of_theta)
 
+################################################################## related to function 13
+#concat_data = numpy.loadtxt("/Users/Apple/Desktop/first_chain_code_results/12_ses_results/concat_data.txt")
+
+x_train , x_test = make_train_and_test_concat_data(concat_data , num_train_examp)
+
+######
+
+pinv_theta = find_theta_by_solving_matrix_equation(x_train , target_voxel_ind)
+
+file = open("pinv_theta.txt" , "w")
+numpy.savetxt("pinv_theta.txt" , pinv_theta , fmt = '%.18e')
+
+########################
+
+#my_theta_mean = numpy.loadtxt("/Users/Apple/Desktop/first_chain_code_results/12ses_10run/my_theta_mean.txt")
+
+#pinv_theta = numpy.loadtxt("/Users/Apple/Desktop/first_chain_code_results/12ses_10run/pinv_theta.txt")
+
+random_theta = numpy.random.random((4693))
+
+train_cost = find_train_cost(x_train , random_theta , 3382 )
+train_cost_random_theta = train_cost
+print("train_cost_random_theta = "+str(train_cost_random_theta))
+
+train_cost = find_train_cost(x_train , pinv_theta , 3382 )
+train_cost_pinv_theta = train_cost
+print("train_cost_pinv_theta = "+str(train_cost_pinv_theta))
+
+train_cost = find_train_cost(x_train , my_theta_mean , 3382 )
+train_cost_my_theta_mean = train_cost
+print("train_cost_my_theta_mean= "+str(train_cost_my_theta_mean))
+
+
+
+
+test_cost = find_test_cost(x_test , random_theta , 3382 )
+test_cost_random_theta = test_cost
+print("test_cost_random_theta = "+str(test_cost_random_theta))
+
+test_cost = find_test_cost(x_test , pinv_theta , 3382 )
+test_cost_pinv_theta = test_cost
+print("test_cost_pinv_theta = "+str(test_cost_pinv_theta))
+
+test_cost = find_test_cost(x_train , my_theta_mean , 3382 )
+test_cost_my_theta_mean = test_cost
+print("test_cost_my_theta_mean= "+str(test_cost_my_theta_mean))
+
+
+plt.figure(1)
+plt.plot(my_theta_mean) 
+plt.title("my_theta_mean")
+
+plt.figure(2)
+plt.plot(pinv_theta)
+plt.title(" pinv_theta ")
+
+plt.show()
+###################
 
 
 

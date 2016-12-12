@@ -297,6 +297,16 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
      before_train_cost_per_iter = numpy.zeros(shape=(num_iter))
      before_test_cost_per_iter=numpy.zeros(shape=(num_iter))
      #3####3
+
+
+     ###new
+     before_hypo_func_train = numpy.dot((x_train_normalized) , (theta_transpose))
+     before_train_cost = (1/t1_train) * math.pow((numpy.linalg.norm( before_hypo_func_train[0:(t1_train)-2] - shift(train_label_normalized , -1)[0:(t1_train)-2])) , 2)
+     #before_train_cost_per_iter[ite] = train_cost
+     before_hypo_func_test = numpy.dot((x_test_normalized) , (theta_transpose))
+     before_test_cost = (1/t1_test) * math.pow((numpy.linalg.norm( before_hypo_func_test[0:(t1_test)-2] - shift(test_label_normalized , -1)[0:(t1_test)-2])) , 2)
+     #before_test_cost_per_iter[ite] = test_cost
+     ###
      
      
             
@@ -306,20 +316,11 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
              test_cost = 0
              ####new
              train_cost = 0
-             before_train_cost =0
-             before_test_cost=0
+
              ####
 
 
-             ###new
-             before_hypo_func_train = numpy.dot((x_train_normalized) , (theta_transpose))
-             before_train_cost = (1/t1_train) * math.pow((numpy.linalg.norm( before_hypo_func_train[0:(t1_train)-2] - shift(train_label_normalized , -1)[0:(t1_train)-2])) , 2)
-             #before_train_cost_per_iter[ite] = train_cost
 
-             before_hypo_func_test = numpy.dot((x_test_normalized) , (theta_transpose))
-             before_test_cost = (1/t1_test) * math.pow((numpy.linalg.norm( before_hypo_func_test[0:(t1_test)-2] - shift(test_label_normalized , -1)[0:(t1_test)-2])) , 2)
-             #before_test_cost_per_iter[ite] = test_cost
-             ###
 
 
                
@@ -373,7 +374,6 @@ def find_test_cost(input_x_test , input_theta_transpose , target_voxel_ind ):
     n5  = input_x_test.shape[1]
     t1 = input_x_test.shape[0]
   
-    test_label = input_x_test[:,target_voxel_ind ]
     test_cost = 0
 
     x_test_normalized = numpy.zeros(shape=(t1 , n5))
@@ -429,7 +429,7 @@ def find_mean_and_variance_of_theta(input_my_theta):
 ####################################################### 10
 
 
-def plotting_results(input_my_cost_func_per_iter , input_my_test_cost_per_iter,
+def plotting_results(input_my_train_cost_per_iter , input_my_test_cost_per_iter,
                      input_my_theta, 
                      input_my_theta_mean ,input_my_theta_variance,
                      num_storing_sets_of_theta):
@@ -440,11 +440,11 @@ def plotting_results(input_my_cost_func_per_iter , input_my_test_cost_per_iter,
         for i in range(num_storing_sets_of_theta):
                 
                 plt.figure(1)
-                plt.plot(numpy.log10(input_my_cost_func_per_iter[:,i]))
+                plt.plot(numpy.log10(input_my_train_cost_per_iter[:,i]))
                 plt.title("logaritm plot of "+str(num_storing_sets_of_theta)+
                           "cost_func_per_iter with the same parameters")
                 plt.xlabel("number of iterations")
-                plt.ylabel("cost_func_per_iter")
+                plt.ylabel("train_cost_per_iter")
 
                 
 
@@ -519,9 +519,9 @@ def plotting_results(input_my_cost_func_per_iter , input_my_test_cost_per_iter,
         plt.show()
 
 ################################################
- #       theta_transpose, cost_func , cost_func_per_iter, test_cost , test_cost_per_iter = test_train_check_func_concat_data( x_train , x_test ,3382 , 0.5,1000,0.005,critical_times_set)
+ #theta_transpose, cost_func , cost_func_per_iter, test_cost , test_cost_per_iter = test_train_check_func_concat_data( x_train , x_test ,3382 , 0.5,1000,0.005,critical_times_set)
 
- #theta_transpose, cost_func , cost_func_per_iter, test_cost , test_cost_per_iter,train_cost , train_cost_per_iter,before_train_cost_per_iter,before_train_cost,before_test_cost_per_iter,before_test_cost = test_train_check_func_concat_data( x_train , x_test ,3382,0.5 , 1 , 0.01 ,critical_times_set)
+ #theta_transpose,  test_cost , test_cost_per_iter , train_cost , train_cost_per_iter , before_test_cost , before_train_cost = test_train_check_func_concat_data( x_train , x_test ,3382,0.5 , 1 , 0.01 ,critical_times_set)
         
     
 ###################################### 11
@@ -552,7 +552,78 @@ def  find_corresponding_voxel_after_reshape(input_theta , r0 ,r1 , r2,target_vox
 
                 return x1,x2 - 1,r2 - 1 , y2-y1
 
-#################################################        
+#################################################  12
+
+
+def find_train_cost(input_x_train , input_theta_transpose , target_voxel_ind ):
+
+    import os
+    import numpy
+    import math
+ 
+
+    
+    n5  = input_x_train.shape[1]
+    t1 = input_x_train.shape[0]
+  
+    train_cost = 0
+
+    x_train_normalized = numpy.zeros(shape=(t1 , n5))
+
+    for i in range(t1 - 1):
+             
+         x_train_normalized[i,:] = (input_x_train[i,:])/(0.0001 + numpy.linalg.norm(input_x_train[i,:]))
+
+        
+     
+    hypo_func = numpy.dot((x_train_normalized) , (input_theta_transpose)) 
+    
+    train_label_normalized = x_train_normalized[:,target_voxel_ind ]
+
+   
+
+
+     
+    train_cost =  (1/t1) * math.pow((numpy.linalg.norm( hypo_func[0:(t1)-2] - shift(train_label_normalized , -1)[0:(t1)-2])) , 2)
+    
+    
+
+
+    return train_cost
+
+################################################# 13
+
+
+def find_theta_by_solving_matrix_equation(input_x_train , target_voxel_ind ):
+
+    import numpy
+    import math
+
+    n5  = input_x_train.shape[1]
+    t1 = input_x_train.shape[0]
+    
+
+    x_train_normalized = numpy.zeros(shape=(t1 , n5))
+
+    for i in range(t1 - 1):
+             
+         x_train_normalized[i,:] = (input_x_train[i,:])/(0.0001 + numpy.linalg.norm(input_x_train[i,:]))
+
+    
+
+    train_label_normalized = x_train_normalized[:,target_voxel_ind ]
+
+    x_train_inverse = numpy.linalg.pinv(input_x_train)
+
+    pinv_theta = numpy.dot(x_train_inverse , shift(train_label_normalized , -1) )
+   
+
+    pinv_theta = (pinv_theta)/(0.0001 + numpy.linalg.norm(pinv_theta))
+
+    return pinv_theta
+#########################################################
+        
+        
 
                         
 
