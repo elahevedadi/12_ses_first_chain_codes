@@ -113,12 +113,11 @@ def reduced_number_of_voxels(input_data):
 
 ################################################## 3
 
-def concatenate_func(input_rr_data12 , input_rr_data13 ,
-                     input_rr_data14 , input_rr_data15 ,
-                     input_rr_data16 , input_rr_data17 ,
-                     input_rr_data18 , input_rr_data19 ,
-                     input_rr_data20 , input_rr_data21 ,
-                     input_rr_data22 , input_rr_data23 ):
+def concatenate_func( input_rr_data27 ,
+                     input_rr_data28 , input_rr_data29 ,
+                     input_rr_data30 , input_rr_data31 ,
+                     input_rr_data32 , input_rr_data33 ,
+                     input_rr_data34 , input_rr_data35 ):
     
 
     import os
@@ -126,12 +125,11 @@ def concatenate_func(input_rr_data12 , input_rr_data13 ,
     import math
 
 
-    concat_data = numpy.concatenate((input_rr_data12, input_rr_data13 ,
-                     input_rr_data14 , input_rr_data15 ,
-                     input_rr_data16 , input_rr_data17 ,
-                     input_rr_data18 , input_rr_data19 ,
-                     input_rr_data20 , input_rr_data21 ,
-                     input_rr_data22 , input_rr_data23) , axis=1)
+    concat_data = numpy.concatenate(( input_rr_data27 ,
+                     input_rr_data28 , input_rr_data29 ,
+                     input_rr_data30 , input_rr_data31 ,
+                     input_rr_data32 , input_rr_data33 ,
+                     input_rr_data34 , input_rr_data35 ) , axis=1)
 
 
     return concat_data
@@ -165,43 +163,40 @@ def make_train_and_test_concat_data(input_concat_data , num_train_examp ):
 
 ################################################## 5
 
-def find_critical_times(input_rr_data12 , input_rr_data13 , input_rr_data14 , input_rr_data15 ,
-                        input_rr_data16 , input_rr_data17 ,  input_rr_data18 ,
-                        input_rr_data19 , input_rr_data20 , input_rr_data21 , input_rr_data22,
-                        input_rr_data23):
+def find_critical_times( input_rr_data27 ,
+                     input_rr_data28 , input_rr_data29 ,
+                     input_rr_data30 , input_rr_data31 ,
+                     input_rr_data32 , input_rr_data33 ,
+                     input_rr_data34 , input_rr_data35 ):
 
     import os
     import numpy
     import math
 
-    critical_time_12 = input_rr_data12.shape[1] - 1
+    critical_time_27 = input_rr_data27.shape[1] - 1
     
-    critical_time_13 = input_rr_data13.shape[1] + critical_time_12
+    critical_time_28 = input_rr_data28.shape[1] + critical_time_27
 
-    critical_time_14 = input_rr_data14.shape[1] + critical_time_13
+    critical_time_29 = input_rr_data29.shape[1] + critical_time_28
 
-    critical_time_15 = input_rr_data15.shape[1] + critical_time_14
+    critical_time_30 = input_rr_data30.shape[1] + critical_time_29
 
-    critical_time_16 = input_rr_data16.shape[1] + critical_time_15
+    critical_time_31 = input_rr_data31.shape[1] + critical_time_30
 
-    critical_time_17 = input_rr_data17.shape[1] + critical_time_16
+    critical_time_32 = input_rr_data32.shape[1] + critical_time_31
 
-    critical_time_18 = input_rr_data18.shape[1] + critical_time_17
+    critical_time_33 = input_rr_data33.shape[1] + critical_time_32
 
-    critical_time_19 = input_rr_data19.shape[1] + critical_time_18
+    critical_time_34 = input_rr_data34.shape[1] + critical_time_33
 
-    critical_time_20 = input_rr_data20.shape[1] + critical_time_19
+    critical_time_35 = input_rr_data35.shape[1] + critical_time_34
 
-    critical_time_21 = input_rr_data21.shape[1] + critical_time_20
 
-    critical_time_22 = input_rr_data22.shape[1] + critical_time_21
-
-    critical_time_23 = input_rr_data23.shape[1] + critical_time_22
 
     
-    critical_times_set = [ critical_time_12 , critical_time_13 , critical_time_14 , critical_time_15 ,
-                           critical_time_16 , critical_time_17 , critical_time_18 , critical_time_19 ,
-                           critical_time_20 , critical_time_21 , critical_time_22 , critical_time_23 ]
+    critical_times_set = [ critical_time_27 , critical_time_28 , critical_time_29 , critical_time_30 ,
+                           critical_time_31 , critical_time_32 , critical_time_33 , critical_time_34 ,
+                           critical_time_35 ]
 
     return critical_times_set
 
@@ -222,7 +217,7 @@ def shift(xs, n):
 ################################################## 7
 
 
-def test_train_check_func_concat_data( input_x_train , input_x_test , target_voxel_ind , alpha , num_iter ,reduce_alpha_coef,critical_times_set):
+def test_train_check_func_concat_data( input_x_train , input_x_test , target_voxel_ind , alpha , num_iter ,reduce_alpha_coef,critical_times_set,forget_factor,training_at_random):
                                         
      # p is number of target voxel and it is in range[0:4693]
      # alpha is steps in gradient descend
@@ -240,8 +235,10 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
      
     
      
-     theta_transpose = numpy.random.seed(int(10000 * time.clock()))
-     theta_transpose = numpy.random.random((n5 , 1 )) #initial theta whith random matrix
+ #    theta_transpose = numpy.random.seed(int(10000 * time.clock()))
+#     theta_transpose = numpy.random.random((n5 , 1 )) #initial theta whith random matrix
+
+     theta_transpose = numpy.zeros((n5 , 1 )) #initial theta whith zero matrix
      theta_transpose = (theta_transpose)/(0.0001 + numpy.linalg.norm(theta_transpose))
      
      
@@ -307,6 +304,21 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
      before_test_cost = (1/t1_test) * math.pow((numpy.linalg.norm( before_hypo_func_test[0:(t1_test)-2] - shift(test_label_normalized , -1)[0:(t1_test)-2])) , 2)
      #before_test_cost_per_iter[ite] = test_cost
      ###
+
+
+     #training at random:
+
+     if training_at_random == 1:
+        training_order =  numpy.random.seed(int(10000 * time.clock()))
+        training_order = numpy.random.randint((t1_train - 1) , size = (t1_train - 1))
+
+     elif training_at_random == 0:
+
+        training_order = range(t1_train - 1)
+
+     ##########################        
+     
+     
      
      
             
@@ -324,7 +336,7 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
 
 
                
-             for i in range(t1_train - 1):
+             for i in training_order:
 
                  if i not in critical_times_set:
                          
@@ -334,7 +346,7 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
                     temp= (( hypo_func- train_label_normalized[i+1] ) * x_train_normalized[i,:])# i and i+1 is because of causality
                     s = s+numpy.reshape(temp,[n5,1])
                     if i% (t1_train - 2) == 0:
-                       theta_transpose =  theta_transpose - (alpha/(reduce_alpha_coef*ite+1)) * (2/(t1_train)) *s
+                       theta_transpose = (forget_factor) * theta_transpose - (alpha/(reduce_alpha_coef*ite+1)) * (2/(t1_train)) *s
                        theta_transpose = (theta_transpose)/(0.0001 + numpy.linalg.norm(theta_transpose))
                        s = numpy.zeros(shape = (n5,1))
                     
@@ -621,7 +633,42 @@ def find_theta_by_solving_matrix_equation(input_x_train , target_voxel_ind ):
     pinv_theta = (pinv_theta)/(0.0001 + numpy.linalg.norm(pinv_theta))
 
     return pinv_theta
-#########################################################
+######################################################### 14
+def Lasso_linear_regression(input_x_train,target_voxel_ind):
+
+    import numpy
+    import math
+    import sklearn
+    from sklearn import linear_model
+
+    t1_train = input_x_train.shape[0]
+    n5  = input_x_train.shape[1]
+
+    x_train_normalized = numpy.zeros(shape=(t1_train , n5))
+
+
+    for i in range(t1_train - 1):
+             
+        x_train_normalized[i,:] = (input_x_train[i,:])/(0.0001 + numpy.linalg.norm(input_x_train[i,:]))
+    
+
+    train_label_normalized = x_train_normalized[:,target_voxel_ind ]
+
+   
+
+
+    clf = linear_model.Lasso(alpha=0 ,copy_X =True ,fit_intercept=True, max_iter=100,  normalize=False, positive=False, precompute=False, random_state=None,
+    selection='cyclic', tol=0.0001, warm_start=False)
+    clf.fit(x_train_normalized , shift(train_label_normalized , -1))
+
+    sparse_theta = clf.coef_
+
+
+  
+
+    return sparse_theta
+
+
         
         
 
