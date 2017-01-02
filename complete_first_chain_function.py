@@ -640,6 +640,7 @@ def Lasso_linear_regression(input_x_train,target_voxel_ind):
     import math
     import sklearn
     from sklearn import linear_model
+    import math
 
     t1_train = input_x_train.shape[0]
     n5  = input_x_train.shape[1]
@@ -667,6 +668,41 @@ def Lasso_linear_regression(input_x_train,target_voxel_ind):
   
 
     return sparse_theta
+###################################################15
+def linear_regression(input_x_train,target_voxel_ind):
+
+    import numpy
+    import math
+    import sklearn
+    from sklearn import linear_model
+    import math
+
+    t1_train = input_x_train.shape[0]
+    n5  = input_x_train.shape[1]
+
+    x_train_normalized = numpy.zeros(shape=(t1_train , n5))
+
+
+    for i in range(t1_train - 1):
+             
+        x_train_normalized[i,:] = (input_x_train[i,:])/(0.0001 + numpy.linalg.norm(input_x_train[i,:]))
+    
+
+    train_label_normalized = x_train_normalized[:,target_voxel_ind ]
+
+   
+
+
+    clf = linear_model.LinearRegression()
+    clf.fit(x_train_normalized , shift(train_label_normalized , -1))
+
+    theta = clf.coef_
+
+
+  
+
+    return theta
+
 
 
         
