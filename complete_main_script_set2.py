@@ -212,13 +212,25 @@ file = open('concat_data.txt', "w")
         
 numpy.savetxt('concat_data.txt'  , concat_data , fmt = '%.18e')
 
+##3temp
+
+target_voxel_ind = 3122
+my_theta_mean = numpy.loadtxt("/Users/Apple/Desktop/first_chain_code_results/9_ses_set2_10run/zero_initialize-random_train_examp/my_theta_mean.txt")
+c_back0 = numpy.zeros(concat_data.shape)
+c_back0 = concat_data
+
+for i in range(my_theta_mean.shape[0]):
+    if i != target_voxel_ind:
+       if -0.005<my_theta_mean[i]<0.005:
+	         c_back0[i,:] = 0 
+
  
 
 
 ################################### 4
 num_train_examp = 0.9
 
-x_train , x_test = make_train_and_test_concat_data(concat_data , num_train_examp )
+x_train , x_test = make_train_and_test_concat_data(c_back0 , num_train_examp )
 
 ################################### 5
 
@@ -230,11 +242,11 @@ critical_times_set = find_critical_times(rr_data27 ,
 ###################################### 6
 
 
-num_iter = 100
+num_iter = 200
 
-alpha = 1.2
+alpha = 12
 
-reduce_alpha_coef = 0.2
+reduce_alpha_coef = 1.5
 
 target_voxel_ind = 3122
 
@@ -242,7 +254,7 @@ n5 = x_train.shape[1]
 
 t1 = x_train.shape[0]
 
-num_storing_sets_of_theta = 10
+num_storing_sets_of_theta = 1
 
 ##
 training_at_random = 1
@@ -290,8 +302,8 @@ if simple_linear_regression == 1:
 
 
    for i in range(num_storing_sets_of_theta):
-       file1 = open("my_theta_"+str(i)+".txt" , "w")
-       numpy.savetxt("my_theta_"+str(i)+".txt" , my_theta[:,i] , fmt = '%.18e')
+ #      file1 = open("my_theta_"+str(i)+".txt" , "w")
+#       numpy.savetxt("my_theta_"+str(i)+".txt" , my_theta[:,i] , fmt = '%.18e')
     
        print("before_test_cost_"+str(i)+" "+"is "+str(my_before_test_cost[i]) , end='\n')
        print("before_train_cost_"+str(i)+" "+"is "+str(my_before_train_cost[i]) , end='\n')
@@ -307,11 +319,11 @@ if simple_linear_regression == 1:
 
    my_theta_mean , my_theta_variance = find_mean_and_variance_of_theta(my_theta)
 
-   file_mean = open("my_theta_mean.txt" , "w")
-   numpy.savetxt("my_theta_mean.txt" , my_theta_mean , fmt = '%.18e')
+ #  file_mean = open("my_theta_mean.txt" , "w")
+#   numpy.savetxt("my_theta_mean.txt" , my_theta_mean , fmt = '%.18e')
 
-   file_variance = open("my_theta_variance.txt" , "w")
-   numpy.savetxt("my_theta_variance.txt" , my_theta_variance , fmt = '%.18e')
+#   file_variance = open("my_theta_variance.txt" , "w")
+#   numpy.savetxt("my_theta_variance.txt" , my_theta_variance , fmt = '%.18e')
 
 
 
