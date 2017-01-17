@@ -214,11 +214,25 @@ numpy.savetxt('concat_data.txt'  , concat_data , fmt = '%.18e')
 
  
 
+##3temp
+
+target_voxel_ind = 3122
+my_theta_mean = numpy.loadtxt("/Users/Apple/Desktop/first_chain_code_results/9_ses_set8_10run/zero_initialize-random_train_examp/my_theta_mean.txt")
+c_back0 = numpy.zeros(concat_data.shape)
+c_back0 = concat_data
+
+for i in range(my_theta_mean.shape[0]):
+    if i != target_voxel_ind:
+       if -0.002<my_theta_mean[i]<0.002:
+	         c_back0[i,:] = 0 
+
+ 
+
 
 ################################### 4
 num_train_examp = 0.9
 
-x_train , x_test = make_train_and_test_concat_data(concat_data , num_train_examp )
+x_train , x_test = make_train_and_test_concat_data(c_back0  , num_train_examp )
 
 ################################### 5
 
@@ -233,9 +247,10 @@ critical_times_set = find_critical_times(rr_data39 ,
 
 num_iter = 100
 
-alpha = 1.2
+alpha = 12
 
-reduce_alpha_coef = 0.2
+reduce_alpha_coef = 1.5
+
 
 target_voxel_ind = 3122
 

@@ -45,20 +45,20 @@ from complete_first_chain_function import Lasso_linear_regression
 
 ######################################################## 1
 
-#ses36 = "/Users/Apple/Desktop/bold data_set3/sub-01_ses-036_task-rest_run-001_bold.nii.gz"
-#ses37 = "/Users/Apple/Desktop/bold data_set3/sub-01_ses-037_task-rest_run-001_bold.nii.gz"
-#ses38 = "/Users/Apple/Desktop/bold data_set3/sub-01_ses-038_task-rest_run-001_bold.nii.gz"
-#ses39 = "/Users/Apple/Desktop/bold data_set3/sub-01_ses-039_task-rest_run-001_bold.nii.gz"
-#ses40 = "/Users/Apple/Desktop/bold data_set3/sub-01_ses-040_task-rest_run-001_bold.nii.gz"
-#ses41 = "/Users/Apple/Desktop/bold data_set3/sub-01_ses-041_task-rest_run-001_bold.nii.gz"
-#ses42 = "/Users/Apple/Desktop/bold data_set3/sub-01_ses-042_task-rest_run-001_bold.nii.gz"
-#ses43 = "/Users/Apple/Desktop/bold data_set3/sub-01_ses-043_task-rest_run-001_bold.nii.gz"
-#ses44 = "/Users/Apple/Desktop/bold data_set3/sub-01_ses-044_task-rest_run-001_bold.nii.gz"
-#ses45 = "/Users/Apple/Desktop/bold data_set3/sub-01_ses-045_task-rest_run-001_bold.nii.gz"
-#ses46 = "/Users/Apple/Desktop/bold data_set3/sub-01_ses-046_task-rest_run-001_bold.nii.gz"
-#ses47 = "/Users/Apple/Desktop/bold data_set3/sub-01_ses-047_task-rest_run-001_bold.nii.gz"
+#ses36 = "/Users/Apple/Desktop/bold data_set4/sub-01_ses-036_task-rest_run-001_bold.nii.gz"
+#ses37 = "/Users/Apple/Desktop/bold data_set4/sub-01_ses-037_task-rest_run-001_bold.nii.gz"
+#ses38 = "/Users/Apple/Desktop/bold data_set4/sub-01_ses-038_task-rest_run-001_bold.nii.gz"
+#ses39 = "/Users/Apple/Desktop/bold data_set7/sub-01_ses-086_task-rest_run-001_bold.nii.gz"
+#ses40 = "/Users/Apple/Desktop/bold data_set7/sub-01_ses-087_task-rest_run-001_bold.nii.gz"
+#ses41 = "/Users/Apple/Desktop/bold data_set7/sub-01_ses-088_task-rest_run-001_bold.nii.gz"
+#ses42 = "/Users/Apple/Desktop/bold data_set7/sub-01_ses-089_task-rest_run-001_bold.nii.gz"
+#ses43 = "/Users/Apple/Desktop/bold data_set7/sub-01_ses-091_task-rest_run-001_bold.nii.gz"
+#ses44 = "/Users/Apple/Desktop/bold data_set7/sub-01_ses-092_task-rest_run-001_bold.nii.gz"
+#ses45 = "/Users/Apple/Desktop/bold data_set7/sub-01_ses-093_task-rest_run-001_bold.nii.gz"
+#ses46 = "/Users/Apple/Desktop/bold data_set7/sub-01_ses-094_task-rest_run-001_bold.nii.gz"
+#ses47 = "/Users/Apple/Desktop/bold data_set7/sub-01_ses-095_task-rest_run-001_bold.nii.gz"
 
-#data36 , data37 , data38 , data39 , data40 ,  data41 , data42 , data43 , data44 , data45 , data46 , data47 = prepare_12_ses_data(ses36 , ses37 , ses38 , ses39 ,
+#data39 , data40 ,  data41 , data42 , data43 , data44 , data45 , data46 , data47 = prepare_12_ses_data( ses39 ,
 #                                                                                                                                             ses40 , ses41 , ses42 , ses43 ,
 #                                                                                                                                             ses44 , ses45 , ses46 , ses47)
 ############################################################## 2
@@ -99,9 +99,9 @@ from complete_first_chain_function import Lasso_linear_regression
 
 #rr_data39 = rr_data
 
-#file = open('rr_data39.txt' , "w")
+#file = open('rr_data86.txt' , "w")
         
-#numpy.savetxt('rr_data39.txt' , rr_data39 , fmt = '%.18e')
+#numpy.savetxt('rr_data86.txt' , rr_data39 , fmt = '%.18e')
 
 
 
@@ -110,9 +110,9 @@ from complete_first_chain_function import Lasso_linear_regression
 
 #rr_data40 = rr_data
 
-#file = open('rr_data40.txt' , "w")
+#file = open('rr_data87.txt' , "w")
         
-#numpy.savetxt('rr_data40.txt' , rr_data40 , fmt = '%.18e')
+#numpy.savetxt('rr_data87.txt' , rr_data40 , fmt = '%.18e')
 
 
 
@@ -120,9 +120,9 @@ from complete_first_chain_function import Lasso_linear_regression
 
 #rr_data41 = rr_data
 
-#file = open('rr_data41.txt' , "w")
+#file = open('rr_data88.txt' , "w")
         
-#numpy.savetxt('rr_data41.txt' , rr_data41 , fmt = '%.18e')
+#numpy.savetxt('rr_data88.txt' , rr_data41 , fmt = '%.18e')
 
 
 
@@ -130,9 +130,9 @@ from complete_first_chain_function import Lasso_linear_regression
 
 #rr_data42 = rr_data
 
-#file = open('rr_data42.txt' , "w")
+#file = open('rr_data89.txt' , "w")
         
-#numpy.savetxt('rr_data42.txt' , rr_data42 , fmt = '%.18e')
+#numpy.savetxt('rr_data89.txt' , rr_data42 , fmt = '%.18e')
 
 
 
@@ -140,9 +140,9 @@ from complete_first_chain_function import Lasso_linear_regression
 
 #rr_data43 = rr_data
 
-#file = open('rr_data43.txt' , "w")
+#file = open('rr_data91.txt' , "w")
         
-#numpy.savetxt('rr_data43.txt' , rr_data43 , fmt = '%.18e')
+#numpy.savetxt('rr_data91.txt' , rr_data43 , fmt = '%.18e')
 
 
 
@@ -150,9 +150,9 @@ from complete_first_chain_function import Lasso_linear_regression
 
 #rr_data44 = rr_data
 
-#file = open('rr_data44.txt' , "w")
+#file = open('rr_data92.txt' , "w")
         
-#numpy.savetxt('rr_data44.txt' , rr_data44 , fmt = '%.18e')
+#numpy.savetxt('rr_data92.txt' , rr_data44 , fmt = '%.18e')
 
 
 
@@ -160,18 +160,18 @@ from complete_first_chain_function import Lasso_linear_regression
 
 #rr_data45 = rr_data
 
-#file = open('rr_data45.txt' , "w")
+#file = open('rr_data93.txt' , "w")
         
-#numpy.savetxt('rr_data45.txt' , rr_data45 , fmt = '%.18e')
+#numpy.savetxt('rr_data93.txt' , rr_data45 , fmt = '%.18e')
 
 
 #reduced_data , rr_data  =  reduced_number_of_voxels(data46)
 
 #rr_data46 = rr_data
 
-#file = open('rr_data46.txt' , "w")
+#file = open('rr_data94.txt' , "w")
         
-#numpy.savetxt('rr_data46.txt' , rr_data46 , fmt = '%.18e')
+#numpy.savetxt('rr_data94.txt' , rr_data46 , fmt = '%.18e')
 
 
 
@@ -179,22 +179,22 @@ from complete_first_chain_function import Lasso_linear_regression
 
 #rr_data47 = rr_data
 
-#file = open('rr_data47.txt' , "w")
+#file = open('rr_data95.txt' , "w")
         
-#numpy.savetxt('rr_data47.txt' , rr_data47 , fmt = '%.18e')
+#numpy.savetxt('rr_data95.txt' , rr_data47 , fmt = '%.18e')
 
 #rr_data36 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set3_10run/rr_data36.txt')
 #rr_data37 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set3_10run/rr_data37.txt')
 #rr_data38= numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set3_10run/rr_data38.txt')
-rr_data39 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set3_10run/rr_data39.txt')
-rr_data40 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set3_10run/rr_data40.txt')
-rr_data41 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set3_10run/rr_data41.txt')
-rr_data42 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set3_10run/rr_data42.txt')
-rr_data43 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set3_10run/rr_data43.txt')
-rr_data44 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set3_10run/rr_data44.txt')
-rr_data45 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set3_10run/rr_data45.txt')
-rr_data46 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set3_10run/rr_data46.txt')
-rr_data47 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set3_10run/rr_data47.txt')
+rr_data39 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set7_10run/rr_data86.txt')
+rr_data40 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set7_10run/rr_data87.txt')
+rr_data41 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set7_10run/rr_data88.txt')
+rr_data42 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set7_10run/rr_data89.txt')
+rr_data43 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set7_10run/rr_data91.txt')
+rr_data44 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set7_10run/rr_data92.txt')
+rr_data45 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set7_10run/rr_data93.txt')
+rr_data46 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set7_10run/rr_data94.txt')
+rr_data47 = numpy.loadtxt('/Users/Apple/Desktop/first_chain_code_results/9_ses_set7_10run/rr_data95.txt')
 
 
 
@@ -211,10 +211,12 @@ file = open('concat_data.txt', "w")
         
 numpy.savetxt('concat_data.txt'  , concat_data , fmt = '%.18e')
 
+ 
+
 ##3temp
 
 target_voxel_ind = 3122
-my_theta_mean = numpy.loadtxt("/Users/Apple/Desktop/first_chain_code_results/9_ses_set3_10run/zero_initialize-random_train_examp/my_theta_mean.txt")
+my_theta_mean = numpy.loadtxt("/Users/Apple/Desktop/first_chain_code_results/9_ses_set7_10run/zero_initialize-random_train_examp/my_theta_mean.txt")
 c_back0 = numpy.zeros(concat_data.shape)
 c_back0 = concat_data
 
@@ -241,6 +243,7 @@ critical_times_set = find_critical_times(rr_data39 ,
 ###################################### 6
 
 
+
 num_iter = 100
 
 alpha = 12
@@ -253,7 +256,7 @@ n5 = x_train.shape[1]
 
 t1 = x_train.shape[0]
 
-num_storing_sets_of_theta = 1
+num_storing_sets_of_theta = 10
 
 ##
 training_at_random = 1
@@ -424,3 +427,9 @@ if Lasso == 1:
 
 #plt.show()
 ###################
+
+
+
+
+
+

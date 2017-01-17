@@ -221,7 +221,7 @@ c_back0 = concat_data
 
 for i in range(my_theta_mean.shape[0]):
     if i != target_voxel_ind:
-       if -0.005<my_theta_mean[i]<0.005:
+       if -0.002<my_theta_mean[i]<0.002:
 	         c_back0[i,:] = 0 
 
  
@@ -242,7 +242,7 @@ critical_times_set = find_critical_times(rr_data27 ,
 ###################################### 6
 
 
-num_iter = 200
+num_iter = 100
 
 alpha = 12
 
@@ -254,7 +254,7 @@ n5 = x_train.shape[1]
 
 t1 = x_train.shape[0]
 
-num_storing_sets_of_theta = 1
+num_storing_sets_of_theta = 10
 
 ##
 training_at_random = 1
@@ -302,8 +302,8 @@ if simple_linear_regression == 1:
 
 
    for i in range(num_storing_sets_of_theta):
- #      file1 = open("my_theta_"+str(i)+".txt" , "w")
-#       numpy.savetxt("my_theta_"+str(i)+".txt" , my_theta[:,i] , fmt = '%.18e')
+       file1 = open("my_theta_"+str(i)+".txt" , "w")
+       numpy.savetxt("my_theta_"+str(i)+".txt" , my_theta[:,i] , fmt = '%.18e')
     
        print("before_test_cost_"+str(i)+" "+"is "+str(my_before_test_cost[i]) , end='\n')
        print("before_train_cost_"+str(i)+" "+"is "+str(my_before_train_cost[i]) , end='\n')
@@ -319,11 +319,11 @@ if simple_linear_regression == 1:
 
    my_theta_mean , my_theta_variance = find_mean_and_variance_of_theta(my_theta)
 
- #  file_mean = open("my_theta_mean.txt" , "w")
-#   numpy.savetxt("my_theta_mean.txt" , my_theta_mean , fmt = '%.18e')
+   file_mean = open("my_theta_mean.txt" , "w")
+   numpy.savetxt("my_theta_mean.txt" , my_theta_mean , fmt = '%.18e')
 
-#   file_variance = open("my_theta_variance.txt" , "w")
-#   numpy.savetxt("my_theta_variance.txt" , my_theta_variance , fmt = '%.18e')
+   file_variance = open("my_theta_variance.txt" , "w")
+   numpy.savetxt("my_theta_variance.txt" , my_theta_variance , fmt = '%.18e')
 
 
 
