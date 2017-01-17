@@ -247,9 +247,9 @@ critical_times_set = find_critical_times(rr_data39 ,
 
 num_iter = 100
 
-alpha = 12
+picalpha = 1.6
 
-reduce_alpha_coef = 1.5
+reduce_alpha_coef = 0.2
 
 
 target_voxel_ind = 3122

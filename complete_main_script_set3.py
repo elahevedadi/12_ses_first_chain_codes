@@ -243,9 +243,9 @@ critical_times_set = find_critical_times(rr_data39 ,
 
 num_iter = 100
 
-alpha = 12
+alpha = 1.2
 
-reduce_alpha_coef = 1.5
+reduce_alpha_coef = 0.2
 
 target_voxel_ind = 3122
 
@@ -253,7 +253,7 @@ n5 = x_train.shape[1]
 
 t1 = x_train.shape[0]
 
-num_storing_sets_of_theta = 1
+num_storing_sets_of_theta = 10
 
 ##
 training_at_random = 1

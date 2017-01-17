@@ -235,13 +235,24 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
      
     
      
- #    theta_transpose = numpy.random.seed(int(10000 * time.clock()))
-#     theta_transpose = numpy.random.random((n5 , 1 )) #initial theta whith random matrix
+     theta_transpose = numpy.random.seed(int(10000 * time.clock()))
+     theta_transpose = numpy.random.random((n5 , 1 )) #initial theta whith random matrix
 
-     theta_transpose = numpy.zeros((n5 , 1 )) #initial theta whith zero matrix
+ #    theta_transpose = numpy.zeros((n5 , 1 )) #initial theta whith zero matrix
      theta_transpose = (theta_transpose)/(0.0001 + numpy.linalg.norm(theta_transpose))
      
      
+ #removing background of random initial theta
+
+
+     theta_mean = numpy.loadtxt("/Users/Apple/Desktop/first_chain_code_results/9_ses_set2_10run/zero_initialize-random_train_examp/my_theta_mean.txt")
+     
+
+     for i in range(theta_mean.shape[0]):
+         if i != target_voxel_ind:
+            if -0.002<theta_mean[i]<0.002:
+	              theta_transpose[i,:]=0 
+
      
      
      x_train_normalized = numpy.zeros(shape=(t1_train , n5))
@@ -706,9 +717,12 @@ def linear_regression(input_x_train,target_voxel_ind):
 
 
         
-        
+ #######################       
 
-                        
+ #for i in range(my_theta_mean.shape[0]):
+#	if i != target_voxel_ind:
+#	   if -0.005<my_theta_mean[i]<0.005:
+#		     concat_data[i,:] = 0                       
 
                 
         

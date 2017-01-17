@@ -244,9 +244,9 @@ critical_times_set = find_critical_times(rr_data27 ,
 
 num_iter = 100
 
-alpha = 12
+alpha = 1.2
 
-reduce_alpha_coef = 1.5
+reduce_alpha_coef = 0.2
 
 target_voxel_ind = 3122
 
@@ -261,7 +261,7 @@ training_at_random = 1
 ##
 Lasso= 0
 ##
-simple_linear_regression = 1
+sesimple_linear_regression = 1
 
 
 
