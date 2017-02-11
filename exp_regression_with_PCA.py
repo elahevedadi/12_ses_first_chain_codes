@@ -172,33 +172,54 @@ def dimensionality_reduction_version_1( input_x_train, input_x_test, number_of_p
         k = number_of_principal_components
 
         n5 = input_x_train.shape[1]
+        t1_train = input_x_train.shape[0]
+        t1_test = input_x_test.shape[0]
+
+
+        x_train_normalized = numpy.zeros(shape=(t1_train , n5))
+        x_test_normalized = numpy.zeros(shape=(t1_test , n5))
+
+
+                        
+        for i in range(t1_test - 1):
+             
+             x_test_normalized[i,:] = (input_x_test[i,:])/(0.0001 + numpy.linalg.norm(input_x_test[i,:]))
+
+
+
+
+                     
+        for i in range(t1_train - 1):
+             
+             x_train_normalized[i,:] = (input_x_train[i,:])/(0.0001 + numpy.linalg.norm(input_x_train[i,:]))
+
 
 
         
 
-        sigma_train = (1/n5) * numpy.dot(numpy.transpose(input_x_train) , input_x_train)
+        sigma_train = (1/n5) * numpy.dot(numpy.transpose(x_train_normalized) , x_train_normalized)
 
         u_train, s_train, v_train = numpy.linalg.svd(sigma_train, full_matrices=1)
 
         u_reduce_train = u_train[:,0:k]
 
-        z_train = numpy.dot(input_x_train , u_reduce_train )
+        z_train = numpy.dot(x_train_normalized , u_reduce_train )
 
 
 
         
-        sigma_test = (1/n5) * numpy.dot(numpy.transpose(input_x_test) , input_x_test)
+        sigma_test = (1/n5) * numpy.dot(numpy.transpose(x_test_normalized) , x_test_normalized)
 
         u_test, s_test, v_test = numpy.linalg.svd(sigma_test, full_matrices=1)
 
         u_reduce_test = u_test[:,0:k]
 
-        z_test = numpy.dot( input_x_test ,u_reduce_test )
+        z_test = numpy.dot( x_test_normalized ,u_reduce_test )
 
  ##      pdb.set_trace()
 
 
-        return z_train, z_test
+        return z_train, z_test, u_reduce_train
 
         
 ################################################## 4'' apply PCA version_2 choosing number of principal components (k)
@@ -212,11 +233,31 @@ def dimensionality_reduction_version_2( input_x_train, input_x_test):
 
 
         n5 = input_x_train.shape[1]
+        t1_train = input_x_train.shape[0]
+        t1_test = input_x_test.shape[0]
+
+        x_train_normalized = numpy.zeros(shape=(t1_train , n5))
+        x_test_normalized = numpy.zeros(shape=(t1_test , n5))
+
+
+
+                
+        for i in range(t1_test - 1):
+             
+             x_test_normalized[i,:] = (input_x_test[i,:])/(0.0001 + numpy.linalg.norm(input_x_test[i,:]))
+
+
+
+
+                     
+        for i in range(t1_train - 1):
+             
+             x_train_normalized[i,:] = (input_x_train[i,:])/(0.0001 + numpy.linalg.norm(input_x_train[i,:]))
 
 
         
 
-        sigma_train = (1/n5) * numpy.dot(numpy.transpose(input_x_train) , input_x_train)
+        sigma_train = (1/n5) * numpy.dot(numpy.transpose(x_train_normalized) , x_train_normalized)
 
         u_train, s_train, v_train = numpy.linalg.svd(sigma_train, full_matrices=1)
 
@@ -238,23 +279,27 @@ def dimensionality_reduction_version_2( input_x_train, input_x_test):
 
         u_reduce_train = u_train[:,0:k]
 
-        z_train = numpy.dot(input_x_train , u_reduce_train )
+        z_train = numpy.dot(x_train_normalized , u_reduce_train )
+
+
 
 
 
         
-        sigma_test = (1/n5) * numpy.dot(numpy.transpose(input_x_test) , input_x_test)
+        sigma_test = (1/n5) * numpy.dot(numpy.transpose(x_test_normalized) , x_test_normalized)
 
         u_test, s_test, v_test = numpy.linalg.svd(sigma_test, full_matrices=1)
 
         u_reduce_test = u_test[:,0:k]
 
-        z_test = numpy.dot( input_x_test ,u_reduce_test )
+        z_test = numpy.dot( x_test_normalized ,u_reduce_test )
 
  ##       pdb.set_trace()
 
+        print(k)
 
-        return k, z_train, z_test
+
+        return k, z_train, z_test,u_reduce_train
 
 
 ################################################## 5
@@ -374,7 +419,7 @@ def test_train_check_func_concat_data( input_x_train, input_x_test, input_z_trai
 
      
      
-     z_train_normalized = numpy.zeros(shape=(t1_train , n5_z))
+  #   z_train_normalized = numpy.zeros(shape=(t1_train , n5_z))
     
 
      train_label = input_x_train[:,target_voxel_ind ]
@@ -382,9 +427,9 @@ def test_train_check_func_concat_data( input_x_train, input_x_test, input_z_trai
      
 
 
-     for i in range(t1_train - 1):
+     #for i in range(t1_train - 1):
              
-         z_train_normalized[i,:] = (input_z_train[i,:])/(0.0001 + numpy.linalg.norm(input_z_train[i,:]))
+ #        z_train_normalized[i,:] = (input_z_train[i,:])/(0.0001 + numpy.linalg.norm(input_z_train[i,:]))
 
 
 
@@ -409,9 +454,9 @@ def test_train_check_func_concat_data( input_x_train, input_x_test, input_z_trai
              
     
 
-     for i in range(t1_test - 1):
+ #    for i in range(t1_test - 1):
              
-         z_test_normalized[i,:] = (input_z_test[i,:])/(0.0001 + numpy.linalg.norm(input_z_test[i,:]))
+#         z_test_normalized[i,:] = (input_z_test[i,:])/(0.0001 + numpy.linalg.norm(input_z_test[i,:]))
 
 
 
@@ -444,14 +489,14 @@ def test_train_check_func_concat_data( input_x_train, input_x_test, input_z_trai
 
      for i in range(int(t1_train)):
             
-         before_hypo_func_train[i] = theta_1_train[i] + theta_2_train[i] * math.exp(numpy.dot((z_train_normalized[i,:]) , (theta_3)))
+         before_hypo_func_train[i] = theta_1_train[i] + theta_2_train[i] * math.exp(numpy.dot((input_z_train[i,:]) , (theta_3)))
 
      before_train_cost = (1/t1_train) * math.pow((numpy.linalg.norm( before_hypo_func_train[0:(t1_train)-2] - shift(train_label_normalized , -1)[0:(t1_train)-2])) , 2)
  #   before_train_cost_per_iter[ite] = train_cost
 
      for i in range(int(t1_test)):
             
-         before_hypo_func_test[i] = theta_1_test[i] + theta_2_test[i] * math.exp(numpy.dot((z_test_normalized[i,:]) , (theta_3)))
+         before_hypo_func_test[i] = theta_1_test[i] + theta_2_test[i] * math.exp(numpy.dot((input_z_test[i,:]) , (theta_3)))
         
      before_test_cost = (1/t1_test) * math.pow((numpy.linalg.norm( before_hypo_func_test[0:(t1_test)-2] - shift(test_label_normalized , -1)[0:(t1_test)-2])) , 2)
      #before_test_cost_per_iter[ite] = test_cost
@@ -495,7 +540,7 @@ def test_train_check_func_concat_data( input_x_train, input_x_test, input_z_trai
                        
                          
                      
-                    hypo_func = theta_1_train[i] + theta_2_train[i] *math.exp(numpy.dot((z_train_normalized[i,:]),(theta_3)))
+                    hypo_func = theta_1_train[i] + theta_2_train[i] *math.exp(numpy.dot((input_z_train[i,:]),(theta_3)))
                      
  #                   temp_1= ( hypo_func- train_label_normalized[i+1] )# i and i+1 is because of causality
 #                    s1 = s1 + temp_1
@@ -511,7 +556,7 @@ def test_train_check_func_concat_data( input_x_train, input_x_test, input_z_trai
 
 
 
-                    temp_3= (( hypo_func- train_label_normalized[i+1] ) * theta_2 *math.exp(numpy.dot((z_train_normalized[i,:]),(theta_3)))) * z_train_normalized[i,:]# i and i+1 is because of causality
+                    temp_3= (( hypo_func- train_label_normalized[i+1] ) * theta_2 *math.exp(numpy.dot((input_z_train[i,:]),(theta_3)))) * input_z_train[i,:]# i and i+1 is because of causality
                     s3 = s3 + numpy.reshape(temp_3,[n5_z,1])
 
                 
@@ -555,13 +600,13 @@ def test_train_check_func_concat_data( input_x_train, input_x_test, input_z_trai
 
              for i in range(int(t1_test)):
                                               
-                 hypo_func[i] = theta_1_test[i] + theta_2_test[i] * math.exp(numpy.dot((z_test_normalized[i,:]) , (theta_3))) # it is a m*1 or (t1/2 * 1) matrix
+                 hypo_func[i] = theta_1_test[i] + theta_2_test[i] * math.exp(numpy.dot((input_z_test[i,:]) , (theta_3))) # it is a m*1 or (t1/2 * 1) matrix
 
                  
 
              for i in range(int(t1_train)):
                      
-                 hypo_func_train[i] =theta_1_train[i] + theta_2_train[i] * math.exp(numpy.dot((z_train_normalized[i,:]) , (theta_3)))    
+                 hypo_func_train[i] =theta_1_train[i] + theta_2_train[i] * math.exp(numpy.dot((input_z_train[i,:]) , (theta_3)))    
                      
 
              #######new
@@ -576,13 +621,13 @@ def test_train_check_func_concat_data( input_x_train, input_x_test, input_z_trai
 
              test_cost_per_iter[ite] = test_cost
 
-             pdb.set_trace()
+#             pdb.set_trace()
              
               
                    
      return theta_3, test_cost , test_cost_per_iter , train_cost , train_cost_per_iter , before_test_cost , before_train_cost 
 ###################################################### 8
-def find_test_cost(input_x_test ,input_z_test, input_theta_3 , target_voxel_ind ):
+def find_test_cost(input_x_test ,input_z_test, input_theta_3 ,input_final_theta_mean, target_voxel_ind ):
 
     import os
     import numpy
@@ -591,11 +636,13 @@ def find_test_cost(input_x_test ,input_z_test, input_theta_3 , target_voxel_ind 
 
     
     n5_z  = input_z_test.shape[1]
+
+    n5  = input_x_test.shape[1]
     t1_test = input_x_test.shape[0]
   
     test_cost = 0
 
-    x_test_normalized = numpy.zeros(shape=(t1_test , n5_z))
+    x_test_normalized = numpy.zeros(shape=(t1_test , n5))
  
     test_label = input_x_test[:,target_voxel_ind ]
 
@@ -603,25 +650,25 @@ def find_test_cost(input_x_test ,input_z_test, input_theta_3 , target_voxel_ind 
 
     for i in range(t1_test - 1):
              
-        z_test_normalized[i,:] = (input_z_test[i,:])/(0.0001 + numpy.linalg.norm(input_z_test[i,:]))
+        x_test_normalized[i,:] = (input_x_test[i,:])/(0.0001 + numpy.linalg.norm(input_x_test[i,:]))
 
 
         
      
-    hypo_func = numpy.dot((z_test_normalized) , (input_theta_3)) # it is a m*1 or (t1/2 * 1) matrix
+    hypo_func_z = numpy.dot((input_z_test) , (input_theta_3)) # it is a m*1 or (t1/2 * 1) matrix
     
-   
+    hypo_func_x = numpy.dot((x_test_normalized) , (input_final_theta_mean))
 
    
 
 
      
-    test_cost =  (1/t1_test) * math.pow((numpy.linalg.norm( hypo_func[0:(t1_test)-2] - shift(test_label_normalized , -1)[0:(t1_test)-2])) , 2)
-    
+    z_test_cost =  (1/t1_test) * math.pow((numpy.linalg.norm( hypo_func_z[0:(t1_test)-2] - shift(test_label_normalized , -1)[0:(t1_test)-2])) , 2)
+    x_test_cost =  (1/t1_test) * math.pow((numpy.linalg.norm( hypo_func_x[0:(t1_test)-2] - shift(test_label_normalized , -1)[0:(t1_test)-2])) , 2)
     
 
 
-    return test_cost 
+    return z_test_cost , x_test_cost
 
 
 
@@ -655,7 +702,7 @@ def find_mean_and_variance_of_theta(input_my_theta):
 
 def plotting_results(input_my_train_cost_per_iter , input_my_test_cost_per_iter,
                      input_my_theta, 
-                     input_my_theta_mean ,input_my_theta_variance,
+                     input_my_theta_mean ,input_my_theta_variance,input_final_theta_mean,
                      num_storing_sets_of_theta):
         import numpy
         import math
@@ -733,6 +780,16 @@ def plotting_results(input_my_train_cost_per_iter , input_my_test_cost_per_iter,
 #        plt.title(" plot of theta_variance for  voxel 1000 to 1020 ")
 #        plt.xlabel("voxel 1000 to 1020")
 #        plt.ylabel("theta_variance")
+
+
+        plt.figure(9)
+        plt.plot(input_final_theta_mean)
+        plt.title(" plot of final theta mean")
+        plt.xlabel("number of voxels")
+        plt.ylabel("final_theta_mean")
+
+
+
 
                    
 

@@ -246,10 +246,10 @@ pca_version_2 = 1
 
 if pca_version_1 == 1:
 
-    z_train, z_test = dimensionality_reduction_version_1( x_train, x_test, number_of_principal_components)
+    z_train, z_test,u_reduce_train = dimensionality_reduction_version_1( x_train, x_test, number_of_principal_components)
 
 if pca_version_2 == 1:
-    k, z_train, z_test = dimensionality_reduction_version_2( x_train, x_test)
+    k, z_train, z_test,u_reduce_train = dimensionality_reduction_version_2( x_train, x_test)
 ################################### 5
 
 critical_times_set = find_critical_times(rr_data27 ,
@@ -260,11 +260,11 @@ critical_times_set = find_critical_times(rr_data27 ,
 ###################################### 6
 
 
-num_iter = 1
+num_iter = 20
 
-alpha = 1.2
+alpha = 14
 
-reduce_alpha_coef = 0.2
+reduce_alpha_coef = 0.1
 
 target_voxel_ind = 3122
 
@@ -324,8 +324,8 @@ if exp_regression == 1:
 
 
    for i in range(num_storing_sets_of_theta):
-       file1 = open("my_theta_"+str(i)+".txt" , "w")
-       numpy.savetxt("my_theta_"+str(i)+".txt" , my_theta[:,i] , fmt = '%.18e')
+       #file1 = open("my_theta_"+str(i)+".txt" , "w")
+       #numpy.savetxt("my_theta_"+str(i)+".txt" , my_theta[:,i] , fmt = '%.18e')
     
        print("before_test_cost_"+str(i)+" "+"is "+str(my_before_test_cost[i]) , end='\n')
        print("before_train_cost_"+str(i)+" "+"is "+str(my_before_train_cost[i]) , end='\n')
@@ -341,20 +341,33 @@ if exp_regression == 1:
 
    my_theta_mean , my_theta_variance = find_mean_and_variance_of_theta(my_theta)
 
-   file_mean = open("my_theta_mean.txt" , "w")
-   numpy.savetxt("my_theta_mean.txt" , my_theta_mean , fmt = '%.18e')
+ #  file_mean = open("my_theta_mean.txt" , "w")
+#   numpy.savetxt("my_theta_mean.txt" , my_theta_mean , fmt = '%.18e')
 
-   file_variance = open("my_theta_variance.txt" , "w")
-   numpy.savetxt("my_theta_variance.txt" , my_theta_variance , fmt = '%.18e')
+ #  file_variance = open("my_theta_variance.txt" , "w")
+#   numpy.savetxt("my_theta_variance.txt" , my_theta_variance , fmt = '%.18e')
 
 
 
 
 
 ####################################################################################333
+
+   final_theta_mean =numpy.dot( u_reduce_train , my_theta_mean)
+
+ #  file_mean = open("final_theta_mean.txt" , "w")
+#   numpy.savetxt("final_theta_mean.txt" , final_theta_mean , fmt = '%.18e')
+
+  # import pdb
+ #  pdb.set_trace()
+
+######################################################################################
    
-   test_cost = find_test_cost(x_test, z_test ,my_theta_mean , target_voxel_ind )
-   print("test_cost_theta_mean is "+str(test_cost) , end='\n')
+   
+   z_test_cost, x_test_cost = find_test_cost(x_test, z_test ,my_theta_mean ,final_theta_mean, target_voxel_ind )
+   print("x_test_cost_final_theta_mean is "+str(x_test_cost) , end='\n')
+
+   print("z_test_cost_my_theta_mean is "+str(z_test_cost) , end='\n')
 
 
 ######################################################################
@@ -362,7 +375,7 @@ if exp_regression == 1:
 
    plotting_results(my_train_cost_per_iter , my_test_cost_per_iter,
                      my_theta, 
-                     my_theta_mean ,my_theta_variance,
+                     my_theta_mean ,my_theta_variance,final_theta_mean,
                      num_storing_sets_of_theta)
 ###############################################
 
