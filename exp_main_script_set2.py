@@ -44,6 +44,8 @@ from exp_regression_with_PCA import find_train_cost
 from exp_regression_with_PCA import find_theta_by_solving_matrix_equation
 # 14
 from exp_regression_with_PCA import Lasso_linear_regression
+# 16
+from exp_regression_with_PCA import cross_correlation
 
 
 
@@ -396,7 +398,16 @@ if Lasso == 1:
     
 
 
-######################################################################
+######################################################################cross correlation
+
+#cross_correlation_matrix = cross_correlation(c_back0,target_voxel_ind)
+
+#file = open("cross_correlation_set2.txt" , "w")
+#numpy.savetxt("cross_correlation_set2.txt" , cross_correlation_matrix , fmt = '%.18e')
+#plt.figure(30)   
+#plt.imshow(cross_correlation_matrix),plt.colorbar()
+#plt.title("cross_correlation_results")
+#plt.show()
 
 
 

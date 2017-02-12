@@ -835,8 +835,7 @@ def  find_corresponding_voxel_after_reshape(input_theta , r0 ,r1 , r2,target_vox
 
 #################################################  12
 
-
-def find_train_cost(input_x_train ,input_z_train, input_theta_3 , target_voxel_ind ):
+def find_train_cost(input_x_train ,input_z_train, input_theta_3 ,input_final_theta_mean, target_voxel_ind ):
 
     import os
     import numpy
@@ -845,36 +844,39 @@ def find_train_cost(input_x_train ,input_z_train, input_theta_3 , target_voxel_i
 
     
     n5_z  = input_z_train.shape[1]
+
+    n5  = input_x_train.shape[1]
     t1_train = input_x_train.shape[0]
   
     train_cost = 0
 
-    z_train_normalized = numpy.zeros(shape=(t1_train , n5_z))
-
+    x_train_normalized = numpy.zeros(shape=(t1_train , n5))
+ 
     train_label = input_x_train[:,target_voxel_ind ]
-    train_label_normalized = (train_label)/(0.0001 + numpy.linalg.norm(train_label))
+
+    train_label_normalized =  (train_label)/(0.0001 + numpy.linalg.norm(train_label))
 
     for i in range(t1_train - 1):
              
-         z_train_normalized[i,:] = (input_z_train[i,:])/(0.0001 + numpy.linalg.norm(input_z_train[i,:]))
+        x_train_normalized[i,:] = (input_x_train[i,:])/(0.0001 + numpy.linalg.norm(input_x_train[i,:]))
 
 
         
      
-    hypo_func = numpy.dot((z_train_normalized) , (input_theta_3)) 
+    hypo_func_z = numpy.dot((input_z_train) , (input_theta_3)) # it is a m*1 or (t1/2 * 1) matrix
     
-    
+    hypo_func_x = numpy.dot((x_train_normalized) , (input_final_theta_mean))
 
    
 
 
      
-    train_cost =  (1/t1) * math.pow((numpy.linalg.norm( hypo_func[0:(t1_train)-2] - shift(train_label_normalized , -1)[0:(t1_train)-2])) , 2)
-    
+    z_train_cost =  (1/t1_train) * math.pow((numpy.linalg.norm( hypo_func_z[0:(t1_train)-2] - shift(train_label_normalized , -1)[0:(t1_train)-2])) , 2)
+    x_train_cost =  (1/t1_train) * math.pow((numpy.linalg.norm( hypo_func_x[0:(t1_train)-2] - shift(train_label_normalized , -1)[0:(t1_train)-2])) , 2)
     
 
 
-    return train_cost
+    return z_train_cost , x_train_cost
 
 ################################################# 13
 
@@ -979,7 +981,29 @@ def linear_regression(input_x_train,target_voxel_ind):
 
 
         
- #######################       
+ ####################### 16
+def cross_correlation(input_concat_data):
+
+        import math
+        import numpy
+        import os
+        import pdb
+        
+
+
+        n5 = input_concat_data.shape[0]
+        cross_correlation_matrix = numpy.zeros((n5,n5))
+
+
+        for i in range(n5):
+                for j in range(n5):
+
+                        cross_correlation_matrix[i,j] = numpy.correlate(input_concat_data[i,:],input_concat_data[j,:])
+
+
+        return cross_correlation_matrix                 
+                        
+        
 
                       
 
