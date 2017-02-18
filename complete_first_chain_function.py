@@ -267,6 +267,10 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
 
      train_label_normalized = x_train_normalized[:,target_voxel_ind ]
 
+
+             
+             
+
      
 
      
@@ -290,7 +294,38 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
 
 
          
-     test_label_normalized =  x_test_normalized[:,target_voxel_ind ]     
+     test_label_normalized =  x_test_normalized[:,target_voxel_ind ]
+
+
+
+
+
+     
+     ### nonlinear regression
+
+     exp_regression = 0
+     logistic_regression = 1
+
+
+     if exp_regression == 1:
+
+             train_label_normalized = train_label_normalized + 0.00000001
+             test_label_normalized = test_label_normalized + 0.00000001
+             train_label_normalized = -numpy.log(train_label_normalized )
+             test_label_normalized = -numpy.log(test_label_normalized)
+
+             train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
+             test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
+
+     if logistic_regression == 1:
+             
+             train_label_normalized = train_label_normalized + 0.00000001
+             test_label_normalized = test_label_normalized + 0.00000001
+             train_label_normalized = -numpy.log((1/(train_label_normalized))-1)
+             test_label_normalized = -numpy.log((1/(test_label_normalized))-1)
+
+             train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
+             test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
      
 
      
@@ -410,6 +445,30 @@ def find_test_cost(input_x_test , input_theta_transpose , target_voxel_ind ):
     hypo_func = numpy.dot((x_test_normalized) , (input_theta_transpose)) # it is a m*1 or (t1/2 * 1) matrix
     
     test_label_normalized = x_test_normalized[:,target_voxel_ind ]
+
+    exp_regression = 0
+    logistic_regression = 1
+
+
+    if exp_regression == 1:
+
+ #            train_label_normalized = train_label_normalized + 0.00000001
+             test_label_normalized = test_label_normalized + 0.00000001
+ #            train_label_normalized = -numpy.log(train_label_normalized )
+             test_label_normalized = -numpy.log(test_label_normalized)
+
+#             train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
+             test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
+
+    if logistic_regression == 1:
+             
+#             train_label_normalized = train_label_normalized + 0.00000001
+             test_label_normalized = test_label_normalized + 0.00000001
+ #            train_label_normalized = -numpy.log((1/(train_label_normalized))-1)
+             test_label_normalized = -numpy.log((1/(test_label_normalized))-1)
+
+ #            train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
+             test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
 
    
 
@@ -602,6 +661,37 @@ def find_train_cost(input_x_train , input_theta_transpose , target_voxel_ind ):
     hypo_func = numpy.dot((x_train_normalized) , (input_theta_transpose)) 
     
     train_label_normalized = x_train_normalized[:,target_voxel_ind ]
+
+
+
+
+    exp_regression = 0
+    logistic_regression = 1
+
+
+    if exp_regression == 1:
+
+             train_label_normalized = train_label_normalized + 0.00000001
+#             test_label_normalized = test_label_normalized + 0.00000001
+             train_label_normalized = -numpy.log(train_label_normalized )
+#             test_label_normalized = -numpy.log(test_label_normalized)
+
+             train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
+ #            test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
+
+    if logistic_regression == 1:
+             
+            train_label_normalized = train_label_normalized + 0.00000001
+#             test_label_normalized = test_label_normalized + 0.00000001
+            train_label_normalized = -numpy.log((1/(train_label_normalized))-1)
+#             test_label_normalized = -numpy.log((1/(test_label_normalized))-1)
+
+            train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
+ #            test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
+
+
+
+            
 
    
 
