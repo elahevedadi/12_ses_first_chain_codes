@@ -24,8 +24,7 @@ cross_correlation_x_train = cross_correlation_x_train.reshape(-1,1)
 
 
 
-w_min = 1.2
-w_max = 1.2
+
 
 
 def kmeans_function(theta,w_min,w_max):
@@ -67,16 +66,22 @@ def kmeans_function(theta,w_min,w_max):
 
 #######################linear########
 
+w_min = 1
+w_max = 1        
+
 
 kmeans_label, kmeans_centers = kmeans_function(my_theta_mean_linear,w_min,w_max)
 
 linear_label = kmeans_label
 linear_centers = kmeans_centers
 
-#file = open('linear_label.txt' , "w")       
-#numpy.savetxt('linear_label.txt' , linear_label, fmt = '%.18e')
+file = open('linear_label.txt' , "w")       
+numpy.savetxt('linear_label.txt' , linear_label, fmt = '%.18e')
 
 ########################logistic##########
+
+w_min = 1
+w_max = 1
 
 kmeans_label, kmeans_centers = kmeans_function(my_theta_mean_logistic,w_min,w_max)
 
@@ -84,11 +89,14 @@ kmeans_label, kmeans_centers = kmeans_function(my_theta_mean_logistic,w_min,w_ma
 logistic_label = kmeans_label
 logistic_centers = kmeans_centers
 
-#file = open('logistic_label.txt' , "w")       
-#numpy.savetxt('logistic_label.txt' , logistic_label, fmt = '%.18e')
+file = open('logistic_label.txt' , "w")       
+numpy.savetxt('logistic_label.txt' , logistic_label, fmt = '%.18e')
 
 
 ################################exponential#######
+
+w_min = 1
+w_max = 1 
 
 
 kmeans_label, kmeans_centers = kmeans_function(my_theta_mean_exp ,w_min,w_max)
@@ -97,21 +105,26 @@ kmeans_label, kmeans_centers = kmeans_function(my_theta_mean_exp ,w_min,w_max)
 exp_label = kmeans_label
 exp_centers = kmeans_centers
 
-#file = open('exp_label.txt' , "w")       
-#numpy.savetxt('exp_label.txt' , exp_label, fmt = '%.18e')
+file = open('exp_label.txt' , "w")       
+numpy.savetxt('exp_label.txt' , exp_label, fmt = '%.18e')
 
 ########################sodo inverse#####################
+
+w_min = 1
+w_max = 1 
 
 kmeans_label, kmeans_centers = kmeans_function(pinv_theta,w_min,w_max)
 
 pinv_label = kmeans_label
 pinv_centers = kmeans_centers
 
-#file = open('pinv_label.txt' , "w")       
-#numpy.savetxt('pinv_label.txt' , pinv_label, fmt = '%.18e')
+file = open('pinv_label.txt' , "w")       
+numpy.savetxt('pinv_label.txt' , pinv_label, fmt = '%.18e')
 
 
 #########################cross correlation##############
+w_min = 1
+w_max = 1 
 
 
 kmeans_label, kmeans_centers = kmeans_function(cross_correlation_x_train,w_min,w_max)
@@ -120,8 +133,8 @@ kmeans_label, kmeans_centers = kmeans_function(cross_correlation_x_train,w_min,w
 cross_correlation_label = kmeans_label
 cross_correlation_centers = kmeans_centers
 
-#file = open('cross_correlation_label.txt' , "w")       
-#numpy.savetxt('cross_correlation_label.txt' , cross_correlation_label, fmt = '%.18e')
+file = open('cross_correlation_label.txt' , "w")       
+numpy.savetxt('cross_correlation_label.txt' , cross_correlation_label, fmt = '%.18e')
     
 ########################
 
