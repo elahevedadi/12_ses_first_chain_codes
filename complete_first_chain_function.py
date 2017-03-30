@@ -217,7 +217,7 @@ def shift(xs, n):
 ################################################## 7
 
 
-def test_train_check_func_concat_data( input_x_train , input_x_test , target_voxel_ind , alpha , num_iter ,reduce_alpha_coef,critical_times_set,forget_factor,training_at_random):
+def test_train_check_func_concat_data( input_x_train , input_x_test , target_voxel_ind , num_iter ,reduce_alpha_coef,critical_times_set,forget_factor,training_at_random):
                                         
      # p is number of target voxel and it is in range[0:4693]
      # alpha is steps in gradient descend
@@ -229,6 +229,11 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
      import os
      import numpy
      import math
+     import scipy as sp
+     import scipy.optimize
+     import sympy
+     from sympy.solvers import solve
+     from sympy import Symbol
   
      t1_train = input_x_train.shape[0] 
      n5 = input_x_train.shape[1]
@@ -239,7 +244,7 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
      theta_transpose = numpy.random.random((n5 , 1 )) #initial theta whith random matrix
 
  #    theta_transpose = numpy.zeros((n5 , 1 )) #initial theta whith zero matrix
-     theta_transpose = (theta_transpose)/(0.0001 + numpy.linalg.norm(theta_transpose))
+ ###    theta_transpose = (theta_transpose)/(0.0001 + numpy.linalg.norm(theta_transpose))
      
      
  #removing background of random initial theta
@@ -304,18 +309,18 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
      ### nonlinear regression
 
      exp_regression = 0
-     logistic_regression = 1
+     logistic_regression = 0
 
 
      if exp_regression == 1:
 
              train_label_normalized = train_label_normalized + 0.00000001
              test_label_normalized = test_label_normalized + 0.00000001
-             train_label_normalized = -numpy.log(train_label_normalized )
-             test_label_normalized = -numpy.log(test_label_normalized)
+             train_label_normalized = numpy.log(train_label_normalized )
+             test_label_normalized = numpy.log(test_label_normalized)
 
-             train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
-             test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
+ #            train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
+#             test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
 
      if logistic_regression == 1:
              
@@ -324,11 +329,13 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
              train_label_normalized = -numpy.log((1/(train_label_normalized))-1)
              test_label_normalized = -numpy.log((1/(test_label_normalized))-1)
 
-             train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
-             test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
-     
+ #            train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
+#             test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
 
-     
+
+
+
+
      
      
      #gradient descend algorithm
@@ -362,12 +369,34 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
 
         training_order = range(t1_train - 1)
 
-     ##########################        
+     ##########################   
      
      
      
-     
+ #    print("hello")
             
+     xT = numpy.transpose(x_train_normalized)
+
+     x_xT = numpy.dot(x_train_normalized , xT)
+ #    pdb.set_trace()
+     y = shift(train_label_normalized , -1)
+     y = numpy.reshape(y,(t1_train,1))
+ 
+     yT = numpy.transpose(y)
+
+     yT = numpy.reshape(yT,(1,t1_train))
+
+     
+    
+
+
+     
+  #   pdb.set_trace()
+            
+             
+
+#########################
+             
      
      for ite in range(num_iter):
              cost_func = 0
@@ -376,24 +405,59 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
              train_cost = 0
 
              ####
+             itr_i = 0
 
 
+             
+             theta_transpose_T = numpy.transpose(theta_transpose)
+             
+             m1 = yT - (numpy.dot(theta_transpose_T, xT))
+
+             M = 4*numpy.dot(m1, x_xT)
+
+             h1 = y - numpy.dot(x_train_normalized, theta_transpose)
+
+             pp = numpy.dot(M, h1)##3
+
+             q1 = numpy.dot(M,x_xT)
+
+             qq = numpy.dot(q1,h1)
+
+             alp =1000* (-1/2)*pp/qq
+
+
+            # print(alp)
+
+
+ #            pdb.set_trace()
+        
 
 
 
                
              for i in training_order:
 
+                 itr_i = itr_i + 1
+
                  if i not in critical_times_set:
                          
                      
                     hypo_func = numpy.dot((x_train_normalized[i,:]),(theta_transpose))
                      
-                    temp= (( hypo_func- train_label_normalized[i+1] ) * x_train_normalized[i,:])# i and i+1 is because of causality
+                    temp= ((  train_label_normalized[i+1]-hypo_func ) * x_train_normalized[i,:])# i and i+1 is because of causality
                     s = s+numpy.reshape(temp,[n5,1])
-                    if i% (t1_train - 2) == 0:
-                       theta_transpose = (forget_factor) * theta_transpose - (alpha/(reduce_alpha_coef*ite+1)) * (2/(t1_train)) *s
-                       theta_transpose = (theta_transpose)/(0.0001 + numpy.linalg.norm(theta_transpose))
+                    if  itr_i % (t1_train - 2) == 0:
+                       #print (numpy.linalg.norm(theta_transpose))
+                       #print( numpy.linalg.norm(temp))
+
+ #                      s = s/(0.0001 + numpy.linalg.norm(s))
+                       theta_transpose = (forget_factor) * theta_transpose - (alp/(reduce_alpha_coef*ite+1)) * (2/(t1_train)) *s
+
+
+# numpy.max(theta_transpose) , s
+                       
+                       #theta_transpose = (theta_transpose)/(0.0001 + numpy.linalg.norm(theta_transpose))
+                       #pdb.set_trace()
                        s = numpy.zeros(shape = (n5,1))
                     
  ##                   cost_func =  cost_func + (1/t1_train) * ( math.pow(( hypo_func - train_label_normalized[i+1] ) , 2))
@@ -447,18 +511,18 @@ def find_test_cost(input_x_test , input_theta_transpose , target_voxel_ind ):
     test_label_normalized = x_test_normalized[:,target_voxel_ind ]
 
     exp_regression = 0
-    logistic_regression = 1
+    logistic_regression = 0
 
 
     if exp_regression == 1:
 
  #            train_label_normalized = train_label_normalized + 0.00000001
              test_label_normalized = test_label_normalized + 0.00000001
- #            train_label_normalized = -numpy.log(train_label_normalized )
-             test_label_normalized = -numpy.log(test_label_normalized)
+ #            train_label_normalized = numpy.log(train_label_normalized )
+             test_label_normalized = numpy.log(test_label_normalized)
 
 #             train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
-             test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
+ #            test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
 
     if logistic_regression == 1:
              
@@ -468,7 +532,7 @@ def find_test_cost(input_x_test , input_theta_transpose , target_voxel_ind ):
              test_label_normalized = -numpy.log((1/(test_label_normalized))-1)
 
  #            train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
-             test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
+ #            test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
 
    
 
@@ -497,7 +561,7 @@ def find_mean_and_variance_of_theta(input_my_theta):
     
     my_theta_mean = numpy.mean(input_my_theta , axis=1)
 
-    my_theta_mean = (my_theta_mean)/(0.0001 + numpy.linalg.norm(my_theta_mean))
+ #   my_theta_mean = (my_theta_mean)/(0.0001 + numpy.linalg.norm(my_theta_mean))
     
     my_theta_variance = numpy.var(input_my_theta , axis = 1)
 
@@ -666,17 +730,17 @@ def find_train_cost(input_x_train , input_theta_transpose , target_voxel_ind ):
 
 
     exp_regression = 0
-    logistic_regression = 1
+    logistic_regression = 0
 
 
     if exp_regression == 1:
 
              train_label_normalized = train_label_normalized + 0.00000001
 #             test_label_normalized = test_label_normalized + 0.00000001
-             train_label_normalized = -numpy.log(train_label_normalized )
-#             test_label_normalized = -numpy.log(test_label_normalized)
+             train_label_normalized = numpy.log(train_label_normalized )
+#             test_label_normalized = numpy.log(test_label_normalized)
 
-             train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
+ #            train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
  #            test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
 
     if logistic_regression == 1:
@@ -686,7 +750,7 @@ def find_train_cost(input_x_train , input_theta_transpose , target_voxel_ind ):
             train_label_normalized = -numpy.log((1/(train_label_normalized))-1)
 #             test_label_normalized = -numpy.log((1/(test_label_normalized))-1)
 
-            train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
+ #           train_label_normalized = (train_label_normalized)/(0.0001 + numpy.linalg.norm(train_label_normalized))
  #            test_label_normalized = (test_label_normalized)/(0.0001 + numpy.linalg.norm(test_label_normalized))
 
 
@@ -731,7 +795,7 @@ def find_theta_by_solving_matrix_equation(input_x_train , target_voxel_ind ):
     pinv_theta = numpy.dot(x_train_inverse , shift(train_label_normalized , -1) )
    
 
-    pinv_theta = (pinv_theta)/(0.0001 + numpy.linalg.norm(pinv_theta))
+ #   pinv_theta = (pinv_theta)/(0.0001 + numpy.linalg.norm(pinv_theta))
 
     return pinv_theta
 ######################################################### 14
@@ -813,6 +877,8 @@ def linear_regression(input_x_train,target_voxel_ind):
 #	if i != target_voxel_ind:
 #	   if -0.005<my_theta_mean[i]<0.005:
 #		     concat_data[i,:] = 0                       
+
+                                      
 
                 
         

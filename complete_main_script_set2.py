@@ -25,7 +25,7 @@ from complete_first_chain_function import find_critical_times
 # 6
 from complete_first_chain_function import shift
 # 7
-from complete_first_chain_function import test_train_check_func_concat_data
+from complete_first_chain_function  import test_train_check_func_concat_data
 # 8
 from complete_first_chain_function import find_mean_and_variance_of_theta
 # 9
@@ -240,13 +240,17 @@ critical_times_set = find_critical_times(rr_data27 ,
                         rr_data35)
 
 ###################################### 6
+## for liniear regression alpha = 1.2 , reduce_alpha_coef = 0.2
 
+## for logistic regression alpha = 1.5 , reduce_alpha_coef =0.3
 
-num_iter = 100
+## for exponential alpha = .... , reduce_alpha_coef =....
 
-alpha = 1.2
+num_iter = 130
 
-reduce_alpha_coef = 0.2
+#alpha = 5.3
+
+reduce_alpha_coef = 0
 
 target_voxel_ind = 3122
 
@@ -261,7 +265,7 @@ training_at_random = 1
 ##
 Lasso= 0
 ##
-sesimple_linear_regression = 1
+simple_linear_regression = 1
 
 
 
@@ -286,7 +290,7 @@ if simple_linear_regression == 1:
    for i in range(num_storing_sets_of_theta):
     
        theta_transpose,  test_cost , test_cost_per_iter , train_cost , train_cost_per_iter , before_test_cost , before_train_cost = test_train_check_func_concat_data( x_train , x_test ,
-                                                                                                                         target_voxel_ind , alpha ,
+                                                                                                                         target_voxel_ind , 
                                                                                                                          num_iter ,reduce_alpha_coef,
                                                                                                                          critical_times_set,1,training_at_random)
     
@@ -332,7 +336,9 @@ if simple_linear_regression == 1:
 ####################################################################################333
 
    test_cost = find_test_cost(x_test ,my_theta_mean , target_voxel_ind )
+   train_cost = find_train_cost(x_train ,my_theta_mean , target_voxel_ind )
    print("test_cost_theta_mean is "+str(test_cost) , end='\n')
+   print("train_cost_theta_mean is "+str(train_cost) , end='\n')
 
 
 ######################################################################
@@ -348,8 +354,8 @@ if Lasso == 1:
 
    sparse_theta =  Lasso_linear_regression(x_train,target_voxel_ind)
 
-   file = open("sparse_theta.txt" , "w")
-   numpy.savetxt("sparse_theta.txt" , sparse_theta, fmt = '%.18e')
+ #  file = open("sparse_theta.txt" , "w")
+#   numpy.savetxt("sparse_theta.txt" , sparse_theta, fmt = '%.18e')
    
    plt.figure(9)
    plt.plot(sparse_theta)
