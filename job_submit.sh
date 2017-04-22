@@ -15,7 +15,8 @@
 cd ~/NeuralfMRI/12_ses_first_chain_codes
 
 #module load python/2.7.9/gcc-4.4.7
+#module load python/3.5
 
-python complete_main_script.py -M $inf_method -F $session_inds -o $voxel_inds -X $num_iter -Y $num_storing_sets_of_theta -R $training_at_random -J $num_train_examp
+python3.5 complete_main_script.py -M $inf_method -F $session_inds -o $voxel_inds -X $num_iter -Y $num_storing_sets_of_theta -R $training_at_random -J $num_train_examp
 
 

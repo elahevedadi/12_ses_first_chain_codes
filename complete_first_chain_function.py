@@ -5,6 +5,11 @@
 # This function reads the command line options.
 #------------------------------------------------------------------------------
 import os
+import sys
+#import imp
+#numpy_dir = imp.find_module('numpy')
+#sys.path.append(numpy_dir)
+print(sys.version)
 import numpy
 def parse_commandline_args(input_opts):
         target_voxel_ind_range = []
@@ -118,7 +123,7 @@ def prepare_12_ses_data(input_ses12 , input_ses13 ,
 
   
         import os
-        import numpy
+ #       import numpy
         import math
         try:
                 import nibabel as nib
@@ -165,7 +170,7 @@ def reduced_number_of_voxels(input_data):
      
  
         import os
-        import numpy
+        #import numpy
         import math
         
      
@@ -250,7 +255,7 @@ def reduced_number_of_voxels(input_data):
 
 def concatenate_func_new(Session_Names):
         import os
-        import numpy
+        #import numpy
         import math
         critical_times_set = []
         itr = 0
@@ -275,7 +280,7 @@ def concatenate_func_new(Session_Names):
 def make_train_and_test_concat_data(input_concat_data , num_train_examp ):
 
     import os
-    import numpy
+   # import numpy
     import math
 
 
@@ -302,7 +307,7 @@ def find_critical_times( input_rr_data27 ,
                      input_rr_data34 , input_rr_data35 ):
 
     import os
-    import numpy
+    #import numpy
     import math
 
     critical_time_27 = input_rr_data27.shape[1] - 1
@@ -337,7 +342,7 @@ def find_critical_times( input_rr_data27 ,
 
 def shift_new(xs, n):
 
-        import numpy
+ #       import numpy
         import math
 
         if n >= 0:
@@ -364,7 +369,7 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
      import random
      import time
      import os
-     import numpy
+    # import numpy
      import math
      #import scipy as sp
      #import scipy.optimize
@@ -626,7 +631,7 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
 def find_test_cost(input_x_test , input_theta_transpose , target_voxel_ind ):
 
     import os
-    import numpy
+ #   import numpy
     import math
  
 
@@ -693,7 +698,7 @@ def find_mean_and_variance_of_theta(input_my_theta):
 
 
     import os
-    import numpy
+ #   import numpy
     import math
 
     
@@ -717,7 +722,7 @@ def plotting_results(input_my_train_cost_per_iter , input_my_test_cost_per_iter,
                      input_my_theta, 
                      input_my_theta_mean ,input_my_theta_variance,
                      num_storing_sets_of_theta):
-        import numpy
+ #       import numpy
         import math
         import matplotlib.pyplot as plt
         
@@ -810,7 +815,7 @@ def plotting_results(input_my_train_cost_per_iter , input_my_test_cost_per_iter,
     
 ###################################### 11
 def  find_corresponding_voxel_after_reshape(input_theta , r0 ,r1 , r2,target_voxel):
-        import numpy
+ #       import numpy
         import math
 
         reshape_theta = numpy.reshape(input_theta ,(r0,r1,r2))
@@ -842,7 +847,7 @@ def  find_corresponding_voxel_after_reshape(input_theta , r0 ,r1 , r2,target_vox
 def find_train_cost(input_x_train , input_theta_transpose , target_voxel_ind ):
 
     import os
-    import numpy
+ #   import numpy
     import math
  
 
@@ -911,7 +916,7 @@ def find_train_cost(input_x_train , input_theta_transpose , target_voxel_ind ):
 
 def find_theta_by_solving_matrix_equation(input_x_train , target_voxel_ind ):
 
-    import numpy
+ #   import numpy
     import math
 
     n5  = input_x_train.shape[1]
@@ -939,7 +944,7 @@ def find_theta_by_solving_matrix_equation(input_x_train , target_voxel_ind ):
 ######################################################### 14
 def Lasso_linear_regression(input_x_train,target_voxel_ind):
 
-    import numpy
+   # import numpy
     import math
     import sklearn
     from sklearn import linear_model
@@ -974,7 +979,7 @@ def Lasso_linear_regression(input_x_train,target_voxel_ind):
 ###################################################15
 def linear_regression(input_x_train,target_voxel_ind):
 
-    import numpy
+ #   import numpy
     import math
     import sklearn
     from sklearn import linear_model
