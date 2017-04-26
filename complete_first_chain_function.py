@@ -1,115 +1,3 @@
-#==============================================================================
-#===========================parse_commandline_args=============================
-#==============================================================================
-#-------------------------------Descriptions-----------------------------------
-# This function reads the command line options.
-#------------------------------------------------------------------------------
-import os
-import sys
-#import imp
-#numpy_dir = imp.find_module('numpy')
-#sys.path.append(numpy_dir)
-print(sys.version)
-import numpy
-def parse_commandline_args(input_opts):
-        target_voxel_ind_range = []
-        session_inds_range = []
-        if (input_opts):
-            for opt, arg in input_opts:
-                    if opt == '-A':
-                            alpha = float(arg)                              # The learning rate for gradient descent
-                    
-                    elif opt == '-F': 
-                            temp = (arg).split(',')                         # The range of sessions to perform inference on
-                            for i in temp:                        
-                                session_inds_range.append(int(i))
-                
-                    elif opt == '-M':
-                        inference_method = str(arg)                         # The inference method: "L" for linear regression, "I" for pseuo-inverse, "S" for sparsity
-                        
-                    elif opt == '-X':
-                            num_iter = int(arg)                             # The number of iterations the algorithm performs the inference
-                            
-                    elif opt == '-Y':
-                            num_storing_sets_of_theta = int(arg)            # The number of weight sets used in the averaging process
-                
-                    elif opt == '-R': 
-                            training_at_random = int(arg)                   # A flag that specify if the traning samples should be drawn randomly
-                            
-                    elif opt == '-J': 
-                            num_train_examp = float(arg)                    # Fraction of the training sampe vs. the train examples
-                
-                    elif opt == '-o': 
-                            temp = (arg).split(',')                             # The range of neurons to identify the connections
-                            for i in temp:                        
-                                target_voxel_ind_range.append(int(i))
-                                
-                    elif opt == '-h':
-                        print(help_message)
-                        sys.exit()
-        else:
-            print('Code will be executed using default values')
-            
-            
-        #------------Set the Default Values if Variables are not Defines---------------
-        if 'alpha' not in locals():
-            alpha = 1.0
-    
-        print('The value of %s for alpha is considered.\n' %str(alpha))
-            
-        if 'inference_method' not in locals():        
-            inference_method = "L"
-        
-        print('The value of %s for inference_method is considered.\n' %str(inference_method))
-    
-        if 'session_inds_range' not in locals():
-            session_inds_range = [36,38]
-        print('The value of %s for session_inds_range is considered.\n' %str(session_inds_range))
-            
-        if 'num_iter' not in locals():
-            num_iter = 20
-        print('The value of %s for num_iter is considered.\n' %str(num_iter))
-    
-        if 'num_storing_sets_of_theta' not in locals():
-            num_storing_sets_of_theta = 10
-        print('The value of %s for num_storing_sets_of_theta is considered.\n' %str(num_storing_sets_of_theta))
-    
-        if 'training_at_random' not in locals():
-            training_at_random = 1
-        print('The value of %s for training_at_random is considered.\n' %str(training_at_random))
-    
-        if 'num_train_examp' not in locals():
-            num_train_examp = 0.9
-        print('The value of %s for num_train_examp is considered.\n' %str(num_train_examp))
-    
-    
-        if 'target_voxel_ind_range' not in locals():
-            target_voxel_ind_range = [3122]
-        print('The value of %s for target_voxel_ind_range is considered.\n' %str(target_voxel_ind_range))
-        #------------------------------------------------------------------------------
-    
-        #------------------Create the Necessary Directories if Necessary---------------
-        file_name_base_results = "../Results"
-        
-        if not os.path.isdir(file_name_base_results):
-            os.makedirs(file_name_base_results)    
-        if not os.path.isdir(file_name_base_results+'/Inferred_Graphs'):
-            temp = file_name_base_results + '/Inferred_Graphs'
-            os.makedirs(temp)
-        if not os.path.isdir(file_name_base_results+'/Spent_Resources'):
-            temp = file_name_base_results + '/Spent_Resources'
-            os.makedirs(temp)
-        if not os.path.isdir(file_name_base_results+'/Plot_Results'):    
-            temp = file_name_base_results + '/Plot_Results'
-            os.makedirs(temp)    
-        #------------------------------------------------------------------------------
-    
-    
-        return alpha,target_voxel_ind_range,session_inds_range,inference_method,num_iter,num_storing_sets_of_theta,training_at_random,num_train_examp,file_name_base_results
-        
-#==============================================================================
-#==============================================================================
-
 
 import pdb
 ################ 1
@@ -123,13 +11,9 @@ def prepare_12_ses_data(input_ses12 , input_ses13 ,
 
   
         import os
- #       import numpy
+        import numpy
         import math
-        try:
-                import nibabel as nib
-        except:
-                print("nibabel is not installed")
-
+        import nibabel as nib
         
 
         example12 = nib.load(input_ses12)
@@ -170,7 +54,7 @@ def reduced_number_of_voxels(input_data):
      
  
         import os
-        #import numpy
+        import numpy
         import math
         
      
@@ -229,58 +113,37 @@ def reduced_number_of_voxels(input_data):
 
 ################################################## 3
 
-#def concatenate_func( input_rr_data27 ,
-#                     input_rr_data28 , input_rr_data29 ,
-#                     input_rr_data30 , input_rr_data31 ,
-#                     input_rr_data32 , input_rr_data33 ,
-#                     input_rr_data34 , input_rr_data35 ):
+def concatenate_func( input_rr_data27 ,
+                     input_rr_data28 , input_rr_data29 ,
+                     input_rr_data30 , input_rr_data31 ,
+                     input_rr_data32 , input_rr_data33 ,
+                     input_rr_data34 , input_rr_data35 ):
     
 
-#    import os
-#    import numpy
-#    import math
+    import os
+    import numpy
+    import math
 
 
-#    concat_data = numpy.concatenate(( input_rr_data27 ,
-#                     input_rr_data28 , input_rr_data29 ,
-#                     input_rr_data30 , input_rr_data31 ,
-#                     input_rr_data32 , input_rr_data33 ,
-#                     input_rr_data34 , input_rr_data35 ) , axis=1)
+    concat_data = numpy.concatenate(( input_rr_data27 ,
+                     input_rr_data28 , input_rr_data29 ,
+                     input_rr_data30 , input_rr_data31 ,
+                     input_rr_data32 , input_rr_data33 ,
+                     input_rr_data34 , input_rr_data35 ) , axis=1)
 
 
-#    return concat_data
+    return concat_data
 
 
 
 
-def concatenate_func_new(Session_Names):
-        import os
-        #import numpy
-        import math
-        critical_times_set = []
-        itr = 0
-        
-        for ses_name in Session_Names:
-                aa = eval("numpy.loadtxt('../Data/ReducedDimension/"+ses_name+".txt')")
-                
-                if ses_name == Session_Names[0]:
-                        concat_data = aa
-                        critical_times_set = [aa.shape[1] - 1]
-                else:
-                        concat_data = numpy.concatenate((concat_data,aa), axis=1)
-                        critical_times_set.append(aa.shape[1] + critical_times_set[itr-1])
-    
-                itr = itr + 1
-        #rr_data27 = numpy.loadtxt('../Data/ReducedDimension/rr_data27.txt')
-
-        return concat_data,critical_times_set
 ###################################################### 4
 
 
 def make_train_and_test_concat_data(input_concat_data , num_train_examp ):
 
     import os
-   # import numpy
+    import numpy
     import math
 
 
@@ -307,7 +170,7 @@ def find_critical_times( input_rr_data27 ,
                      input_rr_data34 , input_rr_data35 ):
 
     import os
-    #import numpy
+    import numpy
     import math
 
     critical_time_27 = input_rr_data27.shape[1] - 1
@@ -340,9 +203,9 @@ def find_critical_times( input_rr_data27 ,
 
 ####################################################### 6
 
-def shift_new(xs, n):
+def shift(xs, n):
 
- #       import numpy
+        import numpy
         import math
 
         if n >= 0:
@@ -351,11 +214,6 @@ def shift_new(xs, n):
            return numpy.r_[xs[-n:], numpy.full(-n, 0)]
 
 
-
-def shift(x,n):
-
-        import numpy
-        return numpy.roll(x,n)
 ################################################## 7
 
 
@@ -369,13 +227,13 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
      import random
      import time
      import os
-    # import numpy
+     import numpy
      import math
-     #import scipy as sp
-     #import scipy.optimize
-     #import sympy
-     #from sympy.solvers import solve
-     #from sympy import Symbol
+     import scipy as sp
+     import scipy.optimize
+     import sympy
+     from sympy.solvers import solve
+     from sympy import Symbol
   
      t1_train = input_x_train.shape[0] 
      n5 = input_x_train.shape[1]
@@ -392,8 +250,7 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
  #removing background of random initial theta
 
 
-     theta_mean = numpy.loadtxt('../Data/ReducedDimension/my_theta_mean.txt')
-
+     theta_mean = numpy.loadtxt("/Users/Apple/Desktop/first_chain_code_results/9_ses_set2_10run/zero_initialize-random_train_examp/my_theta_mean.txt")
      
 
      for i in range(theta_mean.shape[0]):
@@ -566,7 +423,9 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
 
              qq = numpy.dot(q1,h1)
 
-             alp =1000* (-1/2)*pp/qq
+             alp = (-1/2)*pp/qq 
+
+ #            alp =1000* (-1/2)*pp/qq  ##original
 
 
             # print(alp)
@@ -594,8 +453,8 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
                        #print( numpy.linalg.norm(temp))
 
  #                      s = s/(0.0001 + numpy.linalg.norm(s))
-                       theta_transpose = (forget_factor) * theta_transpose - (alp/(reduce_alpha_coef*ite+1)) * (2/(t1_train)) *s
-
+                       theta_transpose = (forget_factor) * theta_transpose - (alp/(reduce_alpha_coef*ite+1)) *s ###597 line eliminate (2/(t1_train))
+ #                      theta_transpose = (forget_factor) * theta_transpose - (alp/(reduce_alpha_coef*ite+1)) * (2/(t1_train)) *s   #original
 
 # numpy.max(theta_transpose) , s
                        
@@ -631,7 +490,7 @@ def test_train_check_func_concat_data( input_x_train , input_x_test , target_vox
 def find_test_cost(input_x_test , input_theta_transpose , target_voxel_ind ):
 
     import os
- #   import numpy
+    import numpy
     import math
  
 
@@ -698,7 +557,7 @@ def find_mean_and_variance_of_theta(input_my_theta):
 
 
     import os
- #   import numpy
+    import numpy
     import math
 
     
@@ -722,7 +581,7 @@ def plotting_results(input_my_train_cost_per_iter , input_my_test_cost_per_iter,
                      input_my_theta, 
                      input_my_theta_mean ,input_my_theta_variance,
                      num_storing_sets_of_theta):
- #       import numpy
+        import numpy
         import math
         import matplotlib.pyplot as plt
         
@@ -815,7 +674,7 @@ def plotting_results(input_my_train_cost_per_iter , input_my_test_cost_per_iter,
     
 ###################################### 11
 def  find_corresponding_voxel_after_reshape(input_theta , r0 ,r1 , r2,target_voxel):
- #       import numpy
+        import numpy
         import math
 
         reshape_theta = numpy.reshape(input_theta ,(r0,r1,r2))
@@ -847,7 +706,7 @@ def  find_corresponding_voxel_after_reshape(input_theta , r0 ,r1 , r2,target_vox
 def find_train_cost(input_x_train , input_theta_transpose , target_voxel_ind ):
 
     import os
- #   import numpy
+    import numpy
     import math
  
 
@@ -916,7 +775,7 @@ def find_train_cost(input_x_train , input_theta_transpose , target_voxel_ind ):
 
 def find_theta_by_solving_matrix_equation(input_x_train , target_voxel_ind ):
 
- #   import numpy
+    import numpy
     import math
 
     n5  = input_x_train.shape[1]
@@ -944,7 +803,7 @@ def find_theta_by_solving_matrix_equation(input_x_train , target_voxel_ind ):
 ######################################################### 14
 def Lasso_linear_regression(input_x_train,target_voxel_ind):
 
-   # import numpy
+    import numpy
     import math
     import sklearn
     from sklearn import linear_model
@@ -979,7 +838,7 @@ def Lasso_linear_regression(input_x_train,target_voxel_ind):
 ###################################################15
 def linear_regression(input_x_train,target_voxel_ind):
 
- #   import numpy
+    import numpy
     import math
     import sklearn
     from sklearn import linear_model
@@ -1021,19 +880,7 @@ def linear_regression(input_x_train,target_voxel_ind):
 #	   if -0.005<my_theta_mean[i]<0.005:
 #		     concat_data[i,:] = 0                       
 
-
-    
-        
-        
-        
-    
-
-
-
-        
-        
-
-                        
+                                      
 
                 
         
