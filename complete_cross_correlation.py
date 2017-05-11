@@ -34,20 +34,21 @@ x_train = concat_transpose[0:int((num_train_examp)*t1) , :]
 cross_correlation_result_of_target_voxel = numpy.zeros((brain_index.shape[0],brain_index.shape[0]))
 
 for j in brain_index:
-    mi = -1
+    mi = -14
     target_voxel_data = x_train[:,j]
-    shifted_target_voxel_data = shift(target_voxel_data , -1)
+    shifted_target_voxel_data = shift(target_voxel_data , -1) #fair_cross_correlation
     mj = mj+1
     for i in brain_index:
         mi = mi+1
-        cross_correlation_result_of_target_voxel[mi,mj] = numpy.dot(shifted_target_voxel_data,x_train[:,i])######
-        
+ #       cross_correlation_result_of_target_voxel[mi,mj] = numpy.dot(shifted_target_voxel_data,x_train[:,i])###### #fair_cross_correlation
+         
+        cross_correlation_result_of_target_voxel[mi,mj] = numpy.correlate(x_train[:,j],x_train[:,i])#### main formula
     
 #cross_correlation_result_of_target_voxel = (cross_correlation_result_of_target_voxel)/(0.0001 + numpy.linalg.norm(cross_correlation_result_of_target_voxel))
 
-file = open('complete_cross_correlation_matrix_set2.txt' , "w")
+file = open('main_complete_cross_correlation_matrix_set2.txt' , "w")
         
-numpy.savetxt('complete_cross_correlation_matrix_set2.txt' , cross_correlation_result_of_target_voxel, fmt = '%.18e')     
+numpy.savetxt('main_complete_cross_correlation_matrix_set2.txt' , cross_correlation_result_of_target_voxel, fmt = '%.18e')     
     
 #plt.plot(cross_correlation_result_of_target_voxel),plt.show()
     
